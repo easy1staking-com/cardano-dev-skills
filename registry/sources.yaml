@@ -1,0 +1,588 @@
+# Cardano Documentation Source Registry
+#
+# This is the canonical list of Cardano projects and their documentation.
+# The MCP server consumes this file to clone, chunk, and index docs.
+# Community contributions welcome — see docs/CONTRIBUTING.md.
+#
+# Schema:
+#   name: Human-readable project name
+#   repo: GitHub clone URL
+#   docs_path: Path within repo containing documentation
+#   format: Primary format (markdown, mdx, rst, openapi, aiken, toml)
+#   format_overrides: Per-glob format overrides (optional)
+#   category: infrastructure | smart-contracts | sdk | standards | governance | scaling | testing
+#   priority: high | medium | low
+#   branch: Git branch to clone (optional, defaults to default branch)
+#   glob_patterns: File patterns to include (optional, defaults to all matching format)
+#   description: Short description of the project (optional)
+#   website: Project website URL (optional)
+
+# =============================================================================
+# INDEXED SOURCES
+# =============================================================================
+
+# --- Core Infrastructure ---
+
+- name: Ogmios
+  repo: https://github.com/cardanosolutions/ogmios.git
+  docs_path: docs
+  format: markdown
+  category: infrastructure
+  priority: high
+  description: WebSocket bridge for cardano-node with JSON/RPC interface
+  website: https://ogmios.dev
+
+- name: Kupo
+  repo: https://github.com/CardanoSolutions/kupo.git
+  docs_path: "."
+  format: markdown
+  format_overrides:
+    "**/*.yaml": openapi
+    "**/*.yml": openapi
+  category: infrastructure
+  priority: high
+  glob_patterns:
+    - README.md
+    - docs/api/nightly.yaml
+  description: Fast, lightweight UTxO chain-index
+  website: https://cardanosolutions.github.io/kupo
+
+- name: Blockfrost OpenAPI
+  repo: https://github.com/blockfrost/openapi.git
+  docs_path: "."
+  format: openapi
+  category: infrastructure
+  priority: high
+  glob_patterns:
+    - "**/*.yaml"
+  description: Most popular hosted REST API for Cardano (~25% adoption)
+  website: https://blockfrost.io
+
+- name: Cardano Node Wiki
+  repo: https://github.com/input-output-hk/cardano-node-wiki.git
+  docs_path: docs
+  format: markdown
+  category: infrastructure
+  priority: medium
+  description: Node documentation and operational guides
+
+- name: DB-Sync
+  repo: https://github.com/IntersectMBO/cardano-db-sync.git
+  docs_path: doc
+  format: markdown
+  category: infrastructure
+  priority: low
+  description: Official PostgreSQL chain indexer (resource-heavy)
+
+- name: Mithril
+  repo: https://github.com/input-output-hk/mithril.git
+  docs_path: docs
+  format: markdown
+  category: infrastructure
+  priority: high
+  glob_patterns:
+    - "**/*.md"
+    - "**/*.mdx"
+  description: Stake-based snapshots for fast node bootstrapping
+  website: https://mithril.network
+
+- name: Oura
+  repo: https://github.com/txpipe/oura.git
+  docs_path: docs
+  format: markdown
+  category: infrastructure
+  priority: medium
+  glob_patterns:
+    - "**/*.md"
+    - "**/*.mdx"
+  description: Rust pipeline for chain event streaming
+  website: https://txpipe.github.io/oura
+
+- name: Pallas
+  repo: https://github.com/txpipe/pallas.git
+  docs_path: "."
+  format: markdown
+  category: infrastructure
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "**/README.md"
+  description: Rust building blocks for Ouroboros/Cardano protocols
+
+- name: Cardano Wallet
+  repo: https://github.com/cardano-foundation/cardano-wallet.git
+  docs_path: docs
+  format: markdown
+  category: infrastructure
+  priority: medium
+  glob_patterns:
+    - "**/*.md"
+  description: HTTP REST API for wallet operations (Cardano Foundation)
+
+- name: Koios
+  repo: https://github.com/cardano-community/koios-artifacts.git
+  docs_path: "."
+  format: markdown
+  format_overrides:
+    "**/*.yaml": openapi
+  category: infrastructure
+  priority: medium
+  glob_patterns:
+    - README.md
+    - specs/results/koiosapi-mainnet.yaml
+  description: Decentralized community REST query layer
+  website: https://koios.rest
+
+- name: Cardano GraphQL
+  repo: https://github.com/cardano-foundation/cardano-graphql.git
+  docs_path: "."
+  format: markdown
+  category: infrastructure
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "docs/**/*.md"
+    - "packages/**/README.md"
+  description: Cross-platform typed GraphQL API
+
+- name: Dolos
+  repo: https://github.com/txpipe/dolos.git
+  docs_path: docs
+  format: markdown
+  category: infrastructure
+  priority: medium
+  glob_patterns:
+    - "**/*.md"
+    - "**/*.mdx"
+  description: Lightweight data node — fraction of full node resources
+  website: https://txpipe.github.io/dolos
+
+- name: Yaci Store
+  repo: https://github.com/bloxbean/yaci-store.git
+  docs_path: "."
+  format: markdown
+  category: infrastructure
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "docs/**/*.md"
+  description: Modular Java indexer with Blockfrost-compatible APIs
+
+# --- Smart Contract Languages ---
+
+- name: Aiken
+  repo: https://github.com/aiken-lang/site.git
+  docs_path: src/pages
+  format: mdx
+  category: smart-contracts
+  priority: high
+  glob_patterns:
+    - "**/*.md"
+    - "**/*.mdx"
+  description: Most popular smart contract language (~75% adoption), Rust-like syntax
+  website: https://aiken-lang.org
+
+- name: Aiken Stdlib
+  repo: https://github.com/aiken-lang/stdlib.git
+  docs_path: lib
+  format: aiken
+  category: smart-contracts
+  priority: high
+  glob_patterns:
+    - "**/*.ak"
+  description: Aiken standard library — list, option, transaction helpers
+
+- name: Aiken Examples
+  repo: https://github.com/aiken-lang/aiken.git
+  docs_path: examples
+  format: aiken
+  format_overrides:
+    "**/*.md": markdown
+  category: smart-contracts
+  priority: high
+  glob_patterns:
+    - "**/*.ak"
+    - "**/*.md"
+  description: Official Aiken code examples and patterns
+
+- name: Plutus
+  repo: https://github.com/IntersectMBO/plutus.git
+  docs_path: doc
+  format: markdown
+  category: smart-contracts
+  priority: medium
+  description: Original Haskell-based smart contract platform by IOG/Intersect
+
+- name: OpShin
+  repo: https://github.com/opshin/opshin.git
+  docs_path: "."
+  format: markdown
+  category: smart-contracts
+  priority: medium
+  glob_patterns:
+    - README.md
+    - ARCHITECTURE.md
+  description: 100% valid Python that compiles to UPLC
+
+- name: Aiken Design Patterns
+  repo: https://github.com/Anastasia-Labs/aiken-design-patterns.git
+  docs_path: "."
+  format: aiken
+  format_overrides:
+    "**/*.md": markdown
+  category: smart-contracts
+  priority: high
+  glob_patterns:
+    - README.md
+    - "lib/**/*.ak"
+  description: Best practices and design patterns for Aiken (Anastasia Labs)
+
+- name: Pebble
+  repo: https://github.com/HarmonicLabs/pebble.git
+  docs_path: "."
+  format: markdown
+  category: smart-contracts
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "packages/**/README.md"
+    - "packages/**/*.md"
+  description: Smart contract framework by Harmonic Labs (TypeScript)
+
+- name: Smart Contract Vulnerabilities
+  repo: https://github.com/easy1staking-com/cardano-smart-contract-vulnerabilities.git
+  docs_path: "."
+  format: markdown
+  category: smart-contracts
+  priority: high
+  glob_patterns:
+    - CARDANO-SMART-CONTRACT-VULNERABILITIES.md
+    - README.md
+  description: 26 documented eUTxO vulnerability patterns with mitigations
+
+- name: Plutarch
+  repo: https://github.com/Plutonomicon/plutarch-plutus.git
+  docs_path: "."
+  format: markdown
+  category: smart-contracts
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "docs/**/*.md"
+    - "Tricks/**/*.md"
+  description: Typed Haskell eDSL for highly optimized UPLC
+
+- name: Plu-ts
+  repo: https://github.com/HarmonicLabs/plu-ts.git
+  docs_path: "."
+  format: markdown
+  category: smart-contracts
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "docs/**/*.md"
+    - "packages/**/README.md"
+  description: TypeScript eDSL for on-chain and off-chain
+
+- name: Scalus
+  repo: https://github.com/scalus3/scalus.git
+  docs_path: "."
+  format: markdown
+  category: smart-contracts
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "docs/**/*.md"
+  description: Scala 3 on-chain and off-chain platform
+
+- name: CIP-113 Programmable Tokens
+  repo: https://github.com/cardano-foundation/cip113-programmable-tokens.git
+  docs_path: "."
+  format: markdown
+  category: smart-contracts
+  priority: medium
+  glob_patterns:
+    - README.md
+    - RFI-REVIEW-SUMMARY.md
+    - src/programmable-tokens-onchain-aiken/README.md
+    - "src/programmable-tokens-onchain-aiken/documentation/**/*.md"
+    - src/programmable-tokens-offchain-java/README.md
+  description: Reference implementation for programmable token standard
+
+# --- Off-chain SDKs & Frameworks ---
+
+- name: Mesh SDK
+  repo: https://github.com/MeshJS/meshjs.dev.git
+  docs_path: content/docs
+  format: mdx
+  category: sdk
+  priority: high
+  glob_patterns:
+    - "**/*.mdx"
+  description: Leading open-source TypeScript SDK — tx builder, wallet connectors, React
+  website: https://meshjs.dev
+
+- name: Mesh SDK Packages
+  repo: https://github.com/MeshJS/mesh.git
+  docs_path: "."
+  format: markdown
+  category: sdk
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "packages/**/README.md"
+    - "packages/**/*.md"
+  description: Mesh SDK package-level documentation and READMEs
+
+- name: Evolution SDK
+  repo: https://github.com/IntersectMBO/evolution-sdk.git
+  docs_path: docs/content/docs
+  format: mdx
+  category: sdk
+  priority: high
+  description: Next-gen Intersect SDK built on Effect library
+  website: https://evolution-sdk.dev
+
+- name: Evolution SDK Packages
+  repo: https://github.com/IntersectMBO/evolution-sdk.git
+  docs_path: packages
+  format: markdown
+  category: sdk
+  priority: high
+  glob_patterns:
+    - "**/README.md"
+    - "**/*.md"
+  description: Evolution SDK package-level READMEs
+
+- name: cardano-js-sdk
+  repo: https://github.com/input-output-hk/cardano-js-sdk.git
+  docs_path: "."
+  format: markdown
+  category: sdk
+  priority: medium
+  glob_patterns:
+    - "**/README.md"
+    - GETTING_STARTED.md
+  description: IOG's comprehensive TypeScript SDK, powers Lace wallet
+
+- name: PyCardano
+  repo: https://github.com/Python-Cardano/pycardano.git
+  docs_path: docs/source
+  format: rst
+  category: sdk
+  priority: medium
+  description: Lightweight Python library for transaction building
+  website: https://pycardano.readthedocs.io
+
+- name: cardano-client-lib
+  repo: https://github.com/bloxbean/cardano-client-lib.git
+  docs_path: "."
+  format: markdown
+  category: sdk
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "docs/**/*.md"
+    - "examples/**/*.md"
+  description: Java client library by BloxBean
+
+- name: Buildooor
+  repo: https://github.com/HarmonicLabs/buildooor.git
+  docs_path: "."
+  format: markdown
+  category: sdk
+  priority: low
+  glob_patterns:
+    - README.md
+    - "docs/**/*.md"
+  description: Smart contract builder tool by Harmonic Labs
+
+- name: Cardano Serialization Lib
+  repo: https://github.com/Emurgo/cardano-serialization-lib.git
+  docs_path: "."
+  format: markdown
+  category: sdk
+  priority: medium
+  glob_patterns:
+    - README.md
+    - "doc/**/*.md"
+    - "examples/**/*.md"
+  description: Low-level Rust/WASM serialization library by Emurgo
+
+# --- Testing & DevNets ---
+
+- name: Yaci DevKit
+  repo: https://github.com/bloxbean/yaci-devkit.git
+  docs_path: docs/pages
+  format: mdx
+  category: testing
+  priority: high
+  glob_patterns:
+    - "**/*.mdx"
+    - "**/*.md"
+  description: Complete local devnet — instant creation, sub-second blocks
+  website: https://devkit.yaci.xyz
+
+# --- Governance (Conway Era) ---
+
+- name: GovTool
+  repo: https://github.com/IntersectMBO/govtool.git
+  docs_path: docs
+  format: markdown
+  category: governance
+  priority: high
+  glob_patterns:
+    - "**/*.md"
+    - "**/*.mdx"
+  description: Official governance UI — register as DRep, delegate, vote
+
+- name: SanchoNet
+  repo: https://github.com/input-output-hk/sanchonet.git
+  docs_path: docs
+  format: markdown
+  category: governance
+  priority: high
+  glob_patterns:
+    - "**/*.md"
+    - "**/*.mdx"
+  description: Governance testnet for CIP-1694 features
+
+# --- Scaling / Layer 2 ---
+
+- name: Hydra
+  repo: https://github.com/cardano-scaling/hydra.git
+  docs_path: docs
+  format: markdown
+  category: scaling
+  priority: high
+  glob_patterns:
+    - "**/*.md"
+    - "**/*.mdx"
+  description: State channels for instant finality off-chain (production-ready)
+  website: https://hydra.family
+
+- name: Ouroboros Leios
+  repo: https://github.com/input-output-hk/ouroboros-leios.git
+  docs_path: docs
+  format: markdown
+  category: scaling
+  priority: medium
+  glob_patterns:
+    - "**/*.md"
+  description: Next-gen consensus with Input Endorsers — 30-50x throughput
+
+# --- Standards & Portals ---
+
+- name: CIPs
+  repo: https://github.com/cardano-foundation/CIPs.git
+  docs_path: "."
+  format: markdown
+  category: standards
+  priority: high
+  glob_patterns:
+    - "CIP-*/README.md"
+    - "CIP-*/**/*.md"
+    - "CPS-*/README.md"
+  description: Cardano Improvement Proposals — all 170+ standards
+
+- name: Developer Portal
+  repo: https://github.com/cardano-foundation/developer-portal.git
+  docs_path: docs
+  format: markdown
+  category: standards
+  priority: high
+  description: Official developer portal at developers.cardano.org
+  website: https://developers.cardano.org
+
+- name: Cardano Docs
+  repo: https://github.com/input-output-hk/cardano-documentation.git
+  docs_path: docs
+  format: markdown
+  category: standards
+  priority: high
+  description: Official Cardano documentation at docs.cardano.org
+  website: https://docs.cardano.org
+
+# =============================================================================
+# CANDIDATES — Not yet indexed, tracked for future addition
+# =============================================================================
+
+# --- Smart Contract Languages (candidates) ---
+
+# - name: Helios
+#   repo: https://github.com/HeliosLang/compiler.git
+#   docs_path: docs
+#   format: markdown
+#   category: smart-contracts
+#   priority: medium
+#   description: DSL with JS/TS SDK, compiles in the browser
+#   status: candidate
+
+# - name: Marlowe
+#   repo: https://github.com/input-output-hk/marlowe-cardano.git
+#   docs_path: docs
+#   format: markdown
+#   category: smart-contracts
+#   priority: low
+#   description: Domain-specific language for financial contracts (community-maintained)
+#   status: candidate
+
+# --- Off-chain SDKs (candidates) ---
+
+# - name: Lucid Evolution
+#   repo: https://github.com/anastasia-labs/lucid-evolution.git
+#   docs_path: docs
+#   format: markdown
+#   category: sdk
+#   priority: high
+#   description: Production-ready TypeScript tx builder by Anastasia Labs
+#   status: candidate
+
+# - name: Blaze SDK
+#   repo: https://github.com/butaneprotocol/blaze-cardano.git
+#   docs_path: docs
+#   format: markdown
+#   category: sdk
+#   priority: medium
+#   description: High-performance TypeScript tx builder by Butane Protocol
+#   status: candidate
+
+# - name: Atlas
+#   repo: https://github.com/geniusyield/atlas.git
+#   docs_path: docs
+#   format: markdown
+#   category: sdk
+#   priority: medium
+#   description: Most mature Haskell PAB by GeniusYield
+#   status: candidate
+
+# - name: CML (Cardano Multiplatform Lib)
+#   repo: https://github.com/niccokunzmann/cml.git
+#   docs_path: docs
+#   format: markdown
+#   category: sdk
+#   priority: medium
+#   description: Rust/WASM by dcSpark, Conway era support
+#   status: candidate
+
+# --- Infrastructure (candidates) ---
+
+# - name: Scrolls
+#   repo: https://github.com/txpipe/scrolls.git
+#   docs_path: docs
+#   format: markdown
+#   category: infrastructure
+#   priority: low
+#   description: Read-optimized chain data collections by TxPipe
+#   status: candidate
+
+# --- Wallet Connectors (candidates) ---
+
+# - name: Weld
+#   repo: https://github.com/cardano-forge/weld.git
+#   docs_path: docs
+#   format: markdown
+#   category: sdk
+#   priority: medium
+#   description: Universal wallet connector by Cardano Forge
+#   status: candidate

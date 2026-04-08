@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node (if any tooling added)
+node_modules/
+
+# Claude Code local settings (keep in .gitignore, user-specific)
+.claude/settings.local.json

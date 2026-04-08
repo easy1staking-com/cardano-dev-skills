@@ -1,0 +1,10 @@
+{
+  "name": "cardano-dev-skills",
+  "version": "0.1.0",
+  "description": "Community-curated Cardano developer knowledge base: 13 skills covering smart contracts, transactions, governance, and tooling for the Cardano ecosystem",
+  "author": {
+    "name": "Cardano Developer Community"
+  },
+  "license": "Apache-2.0",
+  "keywords": ["cardano", "blockchain", "smart-contracts", "aiken", "web3", "eutxo"]
+}

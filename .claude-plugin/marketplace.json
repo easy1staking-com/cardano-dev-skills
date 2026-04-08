@@ -1,0 +1,14 @@
+{
+  "name": "cardano-dev-skills",
+  "owner": {
+    "name": "Cardano Developer Community"
+  },
+  "plugins": [
+    {
+      "name": "cardano-dev-skills",
+      "description": "Cardano developer knowledge base with 13 skills for smart contracts, transactions, governance, and tooling",
+      "version": "0.1.0",
+      "source": "./"
+    }
+  ]
+}
