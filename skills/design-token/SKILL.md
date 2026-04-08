@@ -4,10 +4,7 @@ description: >-
   Design Cardano native token, NFT, NFT collection, fungible token, CIP-25
   metadata, CIP-68 reference tokens, CIP-113 programmable tokens, minting
   policy, token architecture.
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
+allowed-tools: Read Grep Glob
 ---
 
 <!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->

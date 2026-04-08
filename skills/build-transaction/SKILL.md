@@ -4,10 +4,7 @@ description: >-
   Build Cardano transaction, send ADA, mint NFT, mint token, interact with
   smart contract, delegate stake, register DRep, vote on-chain using Mesh SDK,
   Evolution SDK, PyCardano, or cardano-client-lib.
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
+allowed-tools: Read Grep Glob
 ---
 
 <!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
