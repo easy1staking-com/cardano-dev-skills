@@ -88,7 +88,7 @@ For each provider that fits the developer's context, explain:
 - Sign up at blockfrost.io for a project ID
 - REST API with comprehensive endpoints
 - SDKs: JavaScript, Python, Rust, Go, Java, Kotlin, Swift, Elixir
-- Rate limits: free tier 50k requests/day, 10 req/s burst
+- Rate limits: free tier 50k requests/day, 10 req/s sustained, 500 req burst capacity
 - Great for: quick prototyping, frontend dApps, moderate traffic backends
 
 ```

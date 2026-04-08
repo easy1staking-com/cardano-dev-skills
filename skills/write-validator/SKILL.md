@@ -173,8 +173,8 @@ test action1_fails_wrong_signer() fail {
 
 **OpShin notes:**
 - Use Python dataclasses for datum/redeemer types
-- Decorate validators with `@build`
-- Use `opshin evaluate` for local testing
+- Use `build()` function from `opshin.builder` (e.g., `from opshin.builder import build; contract = build("path/to/contract.py")`)
+- Use `opshin eval` for local testing
 
 ## References
 

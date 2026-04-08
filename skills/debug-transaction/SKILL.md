@@ -198,7 +198,7 @@ Suggest practices to avoid the error in the future:
 Most SDKs support evaluating a transaction without submitting:
 
 - **Mesh SDK:** Use Ogmios `evaluateTx` endpoint
-- **Evolution SDK:** `quickTxBuilder.compose(tx).evaluate()`
+- **Evolution SDK:** Build the transaction with `client.newTx()...build()` and inspect the result for errors before signing
 - **PyCardano:** `context.evaluate_tx(tx)`
 - **cardano-cli:** `cardano-cli transaction evaluate`
 

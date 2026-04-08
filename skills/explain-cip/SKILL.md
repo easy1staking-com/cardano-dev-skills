@@ -155,7 +155,7 @@ standard for dApp-wallet interaction in browsers.
 - `window.cardano.<walletName>` exposes the wallet API
 - `enable()` returns an API object with methods for address, UTxO, and signing operations
 - All data is CBOR-encoded — SDKs handle serialization
-- Wallets: Nami, Eternl, Lace, Flint, Typhon, Vespr, Yoroi all implement CIP-30
+- Wallets: Begin, Eternl, Flint, GeroWallet, Lace, Nami, NuFi, RayWallet, Yoroi all implement CIP-30
 
 **Key API methods:**
 - `getNetworkId()` — returns 0 (testnet) or 1 (mainnet)

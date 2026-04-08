@@ -7,7 +7,7 @@ Quick reference for choosing and using Cardano transaction-building SDKs.
 | SDK | Language | Level | Maintenance | Best For |
 |-----|----------|-------|-------------|----------|
 | Mesh SDK | TypeScript/JS | High | Active | Web dApps, rapid prototyping |
-| Evolution SDK | Java/Kotlin | High | Active | JVM backends, enterprise |
+| Evolution SDK | TypeScript | High | Active | Type-safe composable txs |
 | PyCardano | Python | Mid | Active | Python backends, scripting |
 | cardano-client-lib | Java | Mid-Low | Active | JVM fine-grained control |
 | cardano-js-sdk | TypeScript | Low-Mid | IOG-maintained | Full-stack TS, Lace wallet |
@@ -54,41 +54,48 @@ const unsignedTx = await txBuilder
 
 ## Evolution SDK
 
-- **Language:** Java / Kotlin (JVM)
-- **Repository:** github.com/bloxbean/cardano-client-lib (evolution branch)
-- **Documentation:** cardano-client.dev (detailed with examples)
+- **Language:** TypeScript
+- **Repository:** github.com/IntersectMBO/evolution-sdk
+- **Documentation:** evolution-sdk.dev (detailed with examples)
 
 **Strengths:**
-- Composable, declarative transaction builder (`QuickTxBuilder`)
-- Built-in Blockfrost and Koios backend support
+- Effect-TS based, type-safe composable API
+- Built-in Blockfrost, Koios, Kupmios, and Maestro providers
 - Supports Plutus V1, V2, V3 and native scripts
-- Good for server-side and enterprise applications
-- Reactive API support
+- Works in Node.js and browser environments
+- Declarative, chainable transaction builder
 
 **Weaknesses:**
-- JVM-only ecosystem
-- Slightly heavier setup than scripting languages
-- Smaller community than Mesh
+- Newer SDK, smaller community than Mesh
+- Effect-TS paradigm has a learning curve
+- Fewer tutorials and third-party guides
 
-**Installation (Maven):**
-```xml
-<dependency>
-  <groupId>com.bloxbean.cardano</groupId>
-  <artifactId>cardano-client-lib</artifactId>
-  <version>0.6.0</version>
-</dependency>
+**Installation:**
+```bash
+npm install @evolution-sdk/evolution
 ```
 
 **Basic send-ADA pattern:**
-```java
-var quickTxBuilder = new QuickTxBuilder(backendService);
-var tx = new Tx()
-    .payToAddress(receiverAddr, Amount.ada(5.0))
-    .from(senderAddr);
+```typescript
+import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
 
-var result = quickTxBuilder.compose(tx)
-    .withSigner(SignerProviders.signerFrom(senderAccount))
-    .complete();
+const client = makeClient(preprod)
+  .withBlockfrost({
+    baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
+    projectId: process.env.BLOCKFROST_API_KEY!
+  })
+  .withSeed({ mnemonic: process.env.WALLET_MNEMONIC!, accountIndex: 0 })
+
+const tx = await client
+  .newTx()
+  .payToAddress({
+    address: Address.fromBech32("addr_test1..."),
+    assets: Assets.fromLovelace(5_000_000n)
+  })
+  .build()
+
+const signed = await tx.sign()
+const txHash = await signed.submit()
 ```
 
 ---
@@ -147,10 +154,10 @@ context.submit_tx(signed_tx)
 - Fine-grained control over transaction building
 - Direct access to serialization primitives
 - Mature and battle-tested
-- Foundation for Evolution SDK
+- Comprehensive JVM Cardano library by BloxBean
 
 **Weaknesses:**
-- More verbose than Evolution SDK
+- More verbose than higher-level SDKs
 - Requires deeper Cardano knowledge
 - Less documentation than higher-level options
 
@@ -237,10 +244,10 @@ npm install @cardano-sdk/core @cardano-sdk/wallet
 - Need React components for wallet UI
 
 **Choose Evolution SDK when:**
-- Building a JVM backend service
-- Need enterprise-grade tooling
-- Want composable transaction patterns
-- Prefer declarative APIs
+- Want a type-safe, composable TypeScript transaction builder
+- Prefer Effect-TS functional patterns
+- Need built-in multi-provider support (Blockfrost, Koios, Kupmios, Maestro)
+- Building Node.js or browser-based Cardano applications
 
 **Choose PyCardano when:**
 - Building Python backends or automation scripts

@@ -22,6 +22,7 @@ Comprehensive map of tools, SDKs, and infrastructure in the Cardano developer ec
 |---|---|---|---|
 | **Mesh SDK** | Production | High | Full-stack dApp dev, beginners, React integration, comprehensive API. |
 | **Lucid Evolution** | Production | High | Lightweight tx building, advanced users, modular design. |
+| **Evolution SDK** | Production | Medium | Type-safe, Effect-based composable tx building. Modern DX. |
 | **Blaze** | Production | Medium | Modular, lightweight alternative. Multiple provider backends. |
 | **cardano-js-sdk** | Production | Medium | Lace wallet ecosystem, full node interaction, enterprise use. |
 | **Cardano Multiplatform Lib** | Production | Medium | Low-level serialization, cross-platform WASM. |

@@ -36,7 +36,7 @@ construction, signing, submission, and verification on a testnet.
 ## Key Principles
 
 1. **Choose the right SDK for the job.** Mesh SDK (TypeScript) and Evolution SDK
-   (Java) have the best documentation and highest-level APIs. PyCardano is best
+   (TypeScript) have the best documentation and highest-level APIs. PyCardano is best
    for Python shops. cardano-client-lib suits JVM projects needing fine control.
    Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for the latest SDK comparison details.
 
@@ -71,7 +71,7 @@ Ask the user to specify or confirm:
 | Wallet | mnemonic, private key, browser wallet | mnemonic |
 
 If the user does not specify an SDK, recommend **Mesh SDK** for TypeScript
-projects or **Evolution SDK** for Java/JVM projects.
+projects or **cardano-client-lib** for Java/JVM projects.
 
 ### Step 2: Search Bundled Documentation
 
@@ -96,19 +96,16 @@ npm install @meshsdk/core
 - Needs a blockchain provider (Blockfrost, Koios, or Ogmios)
 - Blockfrost API key from https://blockfrost.io
 
-**Evolution SDK (Java)**
+**Evolution SDK (TypeScript)**
 
-```xml
-<dependency>
-  <groupId>com.bloxbean.cardano</groupId>
-  <artifactId>cardano-client-lib</artifactId>
-  <version>0.6.0</version>
-</dependency>
+```bash
+npm install @evolution-sdk/evolution
 ```
 
-- Requires Java 17+
-- Built-in Blockfrost and Koios providers
-- Composable transaction builder API
+- Requires Node.js 18+ and TypeScript 5.0+
+- Effect-TS based, type-safe composable API
+- Built-in Blockfrost, Koios, Kupmios, and Maestro providers
+- Works in Node.js and browser environments
 
 **PyCardano (Python)**
 
@@ -129,7 +126,7 @@ pip install pycardano
 </dependency>
 ```
 
-- Lower-level than Evolution SDK
+- Java/JVM library by BloxBean
 - Good for fine-grained transaction control
 
 ### Step 4: Build the Transaction
@@ -242,12 +239,26 @@ const txHash = await wallet.submitTx(signedTx);
 
 ### Evolution SDK -- Composable Builder
 
-```java
-var result = new QuickTxBuilder(backendService)
-    .compose(new Tx()
-        .payToAddress(receiver, Amount.ada(5.0))
-        .from(sender))
-    .complete();
+```typescript
+import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+
+const client = makeClient(preprod)
+  .withBlockfrost({
+    baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
+    projectId: process.env.BLOCKFROST_API_KEY!
+  })
+  .withSeed({ mnemonic: process.env.WALLET_MNEMONIC!, accountIndex: 0 })
+
+const tx = await client
+  .newTx()
+  .payToAddress({
+    address: Address.fromBech32("addr_test1..."),
+    assets: Assets.fromLovelace(5_000_000n)
+  })
+  .build()
+
+const signed = await tx.sign()
+const txHash = await signed.submit()
 ```
 
 ### PyCardano -- TransactionBuilder
@@ -268,5 +279,5 @@ context.submit_tx(signed_tx)
 - Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for CIP-25, CIP-68 metadata standards
 - Cardano Developer Portal: https://developers.cardano.org
 - Mesh SDK docs: https://meshjs.dev
-- Evolution SDK docs: https://cardano-client.dev
+- Evolution SDK docs: https://evolution-sdk.dev
 - PyCardano docs: https://pycardano.readthedocs.io

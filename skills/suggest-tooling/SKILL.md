@@ -89,6 +89,7 @@ File: skills/integration/suggest-tooling/references/ecosystem-map.md
 | **PyCardano** | Python | Python backends, scripting, data science | Production |
 | **Cardano CLI** | Shell | DevOps, scripting, node operators | Production |
 | **cardano-js-sdk** | TypeScript | Lace wallet ecosystem, full node interaction | Production |
+| **Evolution SDK** | TypeScript | Type-safe, Effect-based composable tx building | Production |
 | **Blaze** | TypeScript | Lightweight, modular tx building | Production |
 | **Cardano Java Client Lib** | Java/Kotlin | JVM backends, Android | Production |
 | **Pallas** | Rust | High-performance, custom node interaction | Production |
@@ -197,5 +198,6 @@ For each recommendation, briefly note:
 - Aiken: https://aiken-lang.org
 - Mesh SDK: https://meshjs.dev
 - Lucid Evolution: https://github.com/Anastasia-Labs/lucid-evolution
+- Evolution SDK: https://evolution-sdk.dev
 - PyCardano: https://pycardano.readthedocs.io
 - Blockfrost: https://blockfrost.io

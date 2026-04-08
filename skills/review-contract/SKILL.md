@@ -142,5 +142,5 @@ End with a summary table and overall risk assessment.
 
 - `references/vulnerability-checklist.md` -- The 26 eUTxO vulnerability patterns with detection and mitigation guidance
 - Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for protocol specifications, design documents, and architecture notes
-- Aiken standard library documentation at https://aiken-lang.org/stdlib
+- Aiken standard library documentation at https://aiken-lang.github.io/stdlib/
 - Cardano CIPs for relevant standards (CIP-57 for Plutus blueprints, CIP-68 for token metadata)

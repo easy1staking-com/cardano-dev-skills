@@ -78,7 +78,7 @@ Cardano governance has three pillars:
 | Hard fork initiation | Yes | Yes | Yes |
 | Protocol parameter changes | Yes | No | Yes |
 | Treasury withdrawal | Yes | No | Yes |
-| Info action | Yes | Yes | No |
+| Info action | Yes | Yes | Yes |
 
 ### Step 4: Role-specific guidance
 
