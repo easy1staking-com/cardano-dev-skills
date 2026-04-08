@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #
-# new-skill.sh — Scaffold a new skill from template
+# new-skill.sh - Scaffold a new skill from template
 #
 # Usage:
-#   ./scripts/new-skill.sh <skill-name> <category>
+#   ./scripts/new-skill.sh <skill-name>
 #
 # Example:
-#   ./scripts/new-skill.sh audit-plutus smart-contracts
+#   ./scripts/new-skill.sh audit-plutus
 #
 
 set -euo pipefail
@@ -15,19 +15,14 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
 SKILLS_DIR="$REPO_ROOT/skills"
 
-VALID_CATEGORIES=("smart-contracts" "transaction-building" "infrastructure" "governance" "concepts" "integration")
-
-if [ $# -lt 2 ]; then
-  echo "Usage: $0 <skill-name> <category>"
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 <skill-name>"
   echo ""
-  echo "Categories: ${VALID_CATEGORIES[*]}"
-  echo ""
-  echo "Example: $0 audit-plutus smart-contracts"
+  echo "Example: $0 audit-plutus"
   exit 1
 fi
 
 SKILL_NAME="$1"
-CATEGORY="$2"
 
 # Validate name (kebab-case, max 64 chars)
 if ! echo "$SKILL_NAME" | grep -qE '^[a-z0-9]+(-[a-z0-9]+)*$'; then
@@ -40,22 +35,7 @@ if [ ${#SKILL_NAME} -gt 64 ]; then
   exit 1
 fi
 
-# Validate category
-VALID=false
-for cat in "${VALID_CATEGORIES[@]}"; do
-  if [ "$cat" = "$CATEGORY" ]; then
-    VALID=true
-    break
-  fi
-done
-
-if [ "$VALID" = false ]; then
-  echo "Error: invalid category '$CATEGORY'" >&2
-  echo "Valid categories: ${VALID_CATEGORIES[*]}" >&2
-  exit 1
-fi
-
-SKILL_DIR="$SKILLS_DIR/$CATEGORY/$SKILL_NAME"
+SKILL_DIR="$SKILLS_DIR/$SKILL_NAME"
 
 if [ -d "$SKILL_DIR" ]; then
   echo "Error: skill directory already exists: $SKILL_DIR" >&2
@@ -106,7 +86,7 @@ TODO: Describe what to produce.
 
 ## References
 
-- See [shared/PRINCIPLES.md](../../shared/PRINCIPLES.md) for safety guidelines
+- See [shared/PRINCIPLES.md](../shared/PRINCIPLES.md) for safety guidelines
 TEMPLATE
 
 # Replace placeholder with actual name
@@ -119,6 +99,6 @@ echo "  $SKILL_DIR/SKILL.md"
 echo "  $SKILL_DIR/references/ (empty, add reference docs as needed)"
 echo ""
 echo "Next steps:"
-echo "  1. Edit $SKILL_DIR/SKILL.md — fill in the TODO sections"
+echo "  1. Edit $SKILL_DIR/SKILL.md - fill in the TODO sections"
 echo "  2. Add reference docs to $SKILL_DIR/references/ if needed"
 echo "  3. Run: python3 scripts/validate.py"

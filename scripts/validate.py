@@ -154,14 +154,12 @@ def validate_sources() -> None:
 def main() -> int:
     print("Validating cardano-dev-skills...\n")
 
-    # Validate skills
+    # Validate skills (flat structure: skills/<skill-name>/SKILL.md)
     skill_count = 0
-    for category_dir in sorted(SKILLS_DIR.iterdir()):
-        if not category_dir.is_dir() or category_dir.name == "shared":
+    for skill_dir in sorted(SKILLS_DIR.iterdir()):
+        if not skill_dir.is_dir() or skill_dir.name == "shared":
             continue
-        for skill_dir in sorted(category_dir.iterdir()):
-            if not skill_dir.is_dir():
-                continue
+        if (skill_dir / "SKILL.md").exists():
             validate_skill(skill_dir)
             skill_count += 1
 

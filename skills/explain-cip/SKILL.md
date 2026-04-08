@@ -297,4 +297,4 @@ When a developer describes a feature, map it to the relevant CIP:
 ## References
 
 - CIP repository: `github.com/cardano-foundation/CIPs`
-- Shared principles: `../../shared/PRINCIPLES.md`
+- Shared principles: `../shared/PRINCIPLES.md`

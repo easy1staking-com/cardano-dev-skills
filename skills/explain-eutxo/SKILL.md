@@ -190,4 +190,4 @@ Off-chain pattern (conceptual):
 ## References
 
 - `references/eutxo-vs-account.md` — detailed comparison of eUTxO and account models
-- Shared principles: `../../shared/PRINCIPLES.md`
+- Shared principles: `../shared/PRINCIPLES.md`
