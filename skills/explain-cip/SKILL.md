@@ -7,6 +7,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Explain CIP
 
 Help developers understand Cardano Improvement Proposals — what they standardize, how they
@@ -70,11 +72,13 @@ naming a CIP, map it:
 - "Programmable tokens" -> CIP-113
 - "On-chain governance" -> CIP-1694
 
-### Step 2: Search for CIP content
+### Step 2: Search Bundled Documentation
 
-Look for CIP documentation in the repository or reference materials. Use Grep and Glob to
-find relevant files. CIP content may appear in reference docs, registry entries, or skill
-files.
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/cips/` - CIP specifications and proposals
+
+Use Grep and Glob to find relevant files. CIP content may appear in reference docs,
+registry entries, or skill files.
 
 ### Step 3: Explain the CIP
 

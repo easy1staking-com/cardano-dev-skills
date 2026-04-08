@@ -5,6 +5,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Connect a Cardano Wallet to a Web dApp
 
 Help the developer integrate a Cardano browser wallet into their web application using the CIP-30 standard.
@@ -45,7 +47,14 @@ Ask the developer (if not already clear):
 - **What do you need to do?** (connect only | read state | sign transactions | governance)
 - **Which network?** (mainnet | preprod | preview | local devnet)
 
-### Step 2: CIP-30 basics
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/mesh-sdk/` - Mesh SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/evolution-sdk/` - Evolution SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/cips/` - CIP specifications (CIP-30, CIP-95)
+
+### Step 3: CIP-30 basics
 
 Reference the CIP-30 API reference for the full specification:
 
@@ -76,7 +85,7 @@ for (const key in window.cardano) {
 }
 ```
 
-### Step 3: Framework-specific integration
+### Step 4: Framework-specific integration
 
 #### React with Mesh SDK (recommended for React)
 
@@ -252,7 +261,7 @@ async function connect(name) {
 </script>
 ```
 
-### Step 4: Reading wallet state
+### Step 5: Reading wallet state
 
 Once connected (via SDK or raw API):
 
@@ -270,7 +279,7 @@ const utxos = await wallet.getUtxos();           // Decoded UTxO objects
 const addresses = await wallet.getUsedAddresses(); // Bech32 addresses
 ```
 
-### Step 5: Building, signing, and submitting transactions
+### Step 6: Building, signing, and submitting transactions
 
 #### With Mesh SDK
 
@@ -326,7 +335,7 @@ const signedTxCbor = assembleTx(unsignedTxCbor, witnessSetCbor);
 const txHash = await api.submitTx(signedTxCbor);
 ```
 
-### Step 6: CIP-95 governance extensions
+### Step 7: CIP-95 governance extensions
 
 For dApps that need governance features (DRep registration, voting, delegation):
 
@@ -344,7 +353,7 @@ const unregisteredPubStakeKeys = await api.cip95.getUnregisteredPubStakeKeys();
 
 Not all wallets support CIP-95 yet. Check wallet compatibility before relying on it. Wallets supporting CIP-95: Eternl, Lace, Flint, Vespr, Typhon.
 
-### Step 7: Common issues and solutions
+### Step 8: Common issues and solutions
 
 | Issue | Cause | Solution |
 |---|---|---|

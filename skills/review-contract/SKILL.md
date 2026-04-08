@@ -7,6 +7,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Review Cardano Smart Contract
 
 Perform a structured security review of a Cardano smart contract (validator, minting policy, or staking script). Produces findings with severity ratings and actionable remediation.
@@ -50,7 +52,15 @@ Search the project for related files:
 - Look for test files, specification documents, and off-chain code
 - Look for configuration or parameter files
 
-### Step 2: Check against the vulnerability checklist
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken/` - Aiken language docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken-design-patterns/` - Aiken design patterns
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/smart-contract-vulnerabilities/` - Smart contract vulnerability reference
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/plutus/` - Plutus docs
+
+### Step 3: Check against the vulnerability checklist
 
 Go through every item in the vulnerability checklist (see References below). For each pattern:
 
@@ -77,7 +87,7 @@ Key checks by contract type:
 - Withdrawal validation bypass (withdraw-zero attack)
 - Insufficient staking control
 
-### Step 3: Language-specific checks
+### Step 4: Language-specific checks
 
 **Aiken:**
 - Use of `expect` vs `when/is` -- `expect` causes script failure on mismatch; sometimes this is desired, sometimes it hides logic errors
@@ -97,7 +107,7 @@ Key checks by contract type:
 - Python-specific pitfalls (mutable defaults, etc.)
 - Correct use of OpShin-specific decorators
 
-### Step 4: Search for cross-cutting concerns
+### Step 5: Search for cross-cutting concerns
 
 - Search for hardcoded addresses or currency symbols
 - Search for time-dependent logic and check range handling
@@ -105,7 +115,7 @@ Key checks by contract type:
 - Check if tests exist and what they cover
 - Check if there is an off-chain component and whether it matches on-chain logic
 
-### Step 5: Compile and report findings
+### Step 6: Compile and report findings
 
 Organize findings by severity:
 
@@ -131,6 +141,6 @@ End with a summary table and overall risk assessment.
 ## References
 
 - `references/vulnerability-checklist.md` -- The 26 eUTxO vulnerability patterns with detection and mitigation guidance
-- Search project documentation for protocol specifications, design documents, and architecture notes
+- Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for protocol specifications, design documents, and architecture notes
 - Aiken standard library documentation at https://aiken-lang.org/stdlib
 - Cardano CIPs for relevant standards (CIP-57 for Plutus blueprints, CIP-68 for token metadata)

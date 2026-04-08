@@ -5,6 +5,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Suggest Cardano Tooling
 
 Help the developer choose the right tools, SDKs, and libraries for their Cardano project based on their requirements and preferred programming language.
@@ -46,7 +48,16 @@ Ask the developer (if not already clear):
 - **What is your experience level with Cardano?** (new, intermediate, advanced)
 - **Any existing infrastructure?** (running a node, using hosted APIs)
 
-### Step 2: Search the ecosystem map
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/mesh-sdk/` - Mesh SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/evolution-sdk/` - Evolution SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken/` - Aiken language docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/ogmios/` - Ogmios WebSocket bridge docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/blockfrost-openapi/` - Blockfrost API docs
+
+### Step 3: Search the ecosystem map
 
 Reference the ecosystem map for the full landscape:
 
@@ -54,7 +65,7 @@ Reference the ecosystem map for the full landscape:
 File: skills/integration/suggest-tooling/references/ecosystem-map.md
 ```
 
-### Step 3: Recommend by category
+### Step 4: Recommend by category
 
 #### Smart Contract Languages
 
@@ -121,7 +132,7 @@ File: skills/integration/suggest-tooling/references/ecosystem-map.md
 | **CIP-95** | Governance extensions for wallets |
 | **WalletConnect** | Mobile wallet connection |
 
-### Step 4: Recommend a stack
+### Step 5: Recommend a stack
 
 Based on the project requirements, recommend a concrete stack. Example stacks:
 
@@ -156,7 +167,7 @@ Based on the project requirements, recommend a concrete stack. Example stacks:
 - Wallet: CIP-30 + CIP-95
 - Reference: CIP-1694 for governance actions
 
-### Step 5: Mention relevant CIPs
+### Step 6: Mention relevant CIPs
 
 Based on the project type, flag relevant CIPs:
 
@@ -169,7 +180,7 @@ Based on the project type, flag relevant CIPs:
 | Metadata | CIP-20 (tx metadata), CIP-25 (NFT metadata) |
 | DEX | CIP-35 (on-chain message signing) |
 
-### Step 6: Flag trade-offs
+### Step 7: Flag trade-offs
 
 For each recommendation, briefly note:
 

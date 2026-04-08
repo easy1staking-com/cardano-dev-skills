@@ -8,6 +8,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Write Cardano Validator
 
 Guide the development of a Cardano smart contract from specification to implementation, with security built in from the start.
@@ -54,7 +56,16 @@ Questions to answer:
 
 See `references/datum-redeemer-design.md` for detailed guidance.
 
-### Step 2: Define the redeemer type
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken/` - Aiken language docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken-stdlib/` - Aiken standard library docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken-examples/` - Aiken example projects
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken-design-patterns/` - Aiken design patterns
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/plutus/` - Plutus docs
+
+### Step 3: Define the redeemer type
 
 The redeemer represents the action the user wants to perform.
 
@@ -69,7 +80,7 @@ For each redeemer variant, define:
 - What datum transitions are valid
 - What outputs must be produced
 
-### Step 3: Write the validator logic
+### Step 4: Write the validator logic
 
 Structure the validator clearly:
 
@@ -98,7 +109,7 @@ For each action handler:
 5. Check datum transitions (immutable fields unchanged, valid state change)
 6. Return True only if all checks pass
 
-### Step 4: Security checklist
+### Step 5: Security checklist
 
 Before considering the validator complete, verify each item:
 
@@ -113,7 +124,7 @@ Before considering the validator complete, verify each item:
 - [ ] Minting controls: If minting, quantity and conditions are constrained
 - [ ] State token: Protocol NFT preserved in exactly one output
 
-### Step 5: Plan off-chain interaction
+### Step 6: Plan off-chain interaction
 
 For each redeemer action, document the transaction shape:
 
@@ -126,7 +137,7 @@ For each redeemer action, document the transaction shape:
 
 This becomes the specification for the off-chain transaction building code.
 
-### Step 6: Write test cases
+### Step 7: Write test cases
 
 Define tests for each redeemer action:
 
@@ -169,7 +180,7 @@ test action1_fails_wrong_signer() fail {
 
 - `references/aiken-patterns.md` -- Common validator patterns with code structure
 - `references/datum-redeemer-design.md` -- Guide for designing datums and redeemers
-- Search project documentation for existing protocol specifications and design documents
+- Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for existing protocol specifications and design documents
 - Aiken language docs: https://aiken-lang.org
 - Plutus docs: https://plutus.cardano.intersectmbo.org
 - OpShin docs: https://opshin.dev

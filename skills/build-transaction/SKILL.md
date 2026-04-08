@@ -10,6 +10,8 @@ allowed-tools:
   - Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Build Cardano Transaction
 
 Guide the user through building Cardano transactions step by step using their
@@ -39,7 +41,7 @@ construction, signing, submission, and verification on a testnet.
 1. **Choose the right SDK for the job.** Mesh SDK (TypeScript) and Evolution SDK
    (Java) have the best documentation and highest-level APIs. PyCardano is best
    for Python shops. cardano-client-lib suits JVM projects needing fine control.
-   Search project documentation for the latest SDK comparison details.
+   Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for the latest SDK comparison details.
 
 2. **Always prototype on Preview testnet.** Never build against mainnet first.
    Use the Cardano faucet to obtain test ADA. Set the network parameter
@@ -74,7 +76,16 @@ Ask the user to specify or confirm:
 If the user does not specify an SDK, recommend **Mesh SDK** for TypeScript
 projects or **Evolution SDK** for Java/JVM projects.
 
-### Step 2: Set Up Prerequisites
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/evolution-sdk/` - Evolution SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/mesh-sdk/` - Mesh SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/mesh-sdk-packages/` - Mesh SDK package docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/pycardano/` - PyCardano docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/cardano-client-lib/` - Cardano Client Lib docs
+
+### Step 3: Set Up Prerequisites
 
 For each SDK, ensure the user has the required environment:
 
@@ -124,7 +135,7 @@ pip install pycardano
 - Lower-level than Evolution SDK
 - Good for fine-grained transaction control
 
-### Step 3: Build the Transaction
+### Step 4: Build the Transaction
 
 Provide step-by-step code for the chosen SDK and transaction type.
 Follow these patterns:
@@ -174,7 +185,7 @@ Follow these patterns:
 3. For voting: build a voting procedure targeting a governance action ID
 4. Sign and submit
 
-### Step 4: Explain the Transaction
+### Step 5: Explain the Transaction
 
 After providing code, explain:
 
@@ -183,7 +194,7 @@ After providing code, explain:
 - What fees are expected
 - What happens on-chain when this transaction is processed
 
-### Step 5: Common Pitfalls
+### Step 6: Common Pitfalls
 
 Warn about these frequent issues:
 
@@ -201,7 +212,7 @@ Warn about these frequent issues:
 - **Transaction size limit:** Max 16 KB. Large token bundles or many inputs
   can exceed this. Split into multiple transactions if needed.
 
-### Step 6: Test on Preview Testnet
+### Step 7: Test on Preview Testnet
 
 1. Get test ADA from the Cardano faucet: https://docs.cardano.org/cardano-testnets/tools/faucet/
 2. Run the transaction code
@@ -257,7 +268,7 @@ context.submit_tx(signed_tx)
 ## References
 
 - `references/sdk-comparison.md` -- detailed SDK comparison table
-- Search project documentation for CIP-25, CIP-68 metadata standards
+- Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for CIP-25, CIP-68 metadata standards
 - Cardano Developer Portal: https://developers.cardano.org
 - Mesh SDK docs: https://meshjs.dev
 - Evolution SDK docs: https://cardano-client.dev

@@ -5,6 +5,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Set Up a Cardano Development Environment
 
 Help the developer set up a local Cardano development network for building, testing, and deploying smart contracts.
@@ -51,7 +53,14 @@ Ask the developer (if not already clear):
 | **Preprod testnet** | Pre-production testing, mirrors mainnet parameters | 10 minutes |
 | **Custom local cluster** | Advanced scenarios, custom protocol params | 30+ minutes |
 
-### Step 2: Set up Yaci DevKit (recommended for local dev)
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/yaci-devkit/` - Yaci DevKit docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/yaci-store/` - Yaci Store docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/cardano-node-wiki/` - Cardano node wiki
+
+### Step 3: Set up Yaci DevKit (recommended for local dev)
 
 Reference the quickstart guide for detailed commands:
 
@@ -81,7 +90,7 @@ File: skills/infrastructure/setup-devnet/references/yaci-devkit-quickstart.md
 - Configure slot length for faster/slower block production
 - Enable/disable Plutus cost model overrides for testing
 
-### Step 3: Set up local chain indexers
+### Step 4: Set up local chain indexers
 
 If your application needs to query UTxOs or chain state beyond what Yaci Store provides:
 
@@ -109,7 +118,7 @@ docker run --rm \
   --since origin
 ```
 
-### Step 4: Smart contract workflow
+### Step 5: Smart contract workflow
 
 #### Aiken build-deploy-test cycle
 
@@ -132,7 +141,7 @@ aiken check        # Run unit tests
 - **Property tests**: Aiken's `fuzz` support for property-based testing
 - **End-to-end**: Full workflow tests against Preview testnet
 
-### Step 5: Connect to public testnets
+### Step 6: Connect to public testnets
 
 #### Preview testnet
 
@@ -157,7 +166,7 @@ aiken check        # Run unit tests
 # Faucet has rate limits per address
 ```
 
-### Step 6: CI integration
+### Step 7: CI integration
 
 #### GitHub Actions example
 
@@ -196,7 +205,7 @@ jobs:
 - Use deterministic wallet keys for reproducible tests
 - Clean devnet state between test suites if needed
 
-### Step 7: Troubleshooting common issues
+### Step 8: Troubleshooting common issues
 
 - **Docker not starting**: Check Docker daemon is running, ports not in use
 - **Node not syncing**: For local devnet, check logs inside container

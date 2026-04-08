@@ -8,6 +8,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Optimize Cardano Validator
 
 Guide optimization of Aiken validators for lower execution costs (CPU/memory) and smaller compiled script size. Optimization should only be applied to validators that are already correct and tested.
@@ -60,7 +62,14 @@ Note the following:
 - Execution unit estimates per action (from `aiken bench`)
 - Which operations the validator performs (list traversals, value comparisons, datum deserialization)
 
-### Step 2: Identify expensive operations
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken/` - Aiken language docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken-stdlib/` - Aiken standard library docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/plutus/` - Plutus docs
+
+### Step 3: Identify expensive operations
 
 Search the validator code for known cost centers:
 
@@ -83,7 +92,7 @@ Search the validator code for known cost centers:
 - Redundant type conversions
 - Inlined functions that could be shared
 
-### Step 3: Apply optimizations
+### Step 4: Apply optimizations
 
 #### Execution unit optimizations
 
@@ -189,7 +198,7 @@ Search for functions, types, and imports that are not referenced. Unused code st
 - For lookups, sorted lists with early-exit beat unsorted lists
 - Smaller datums mean less deserialization cost -- remove fields that can be computed from other fields
 
-### Step 4: Consider reference scripts
+### Step 5: Consider reference scripts
 
 For scripts over approximately 4 KB that will be used in multiple transactions:
 
@@ -198,7 +207,7 @@ For scripts over approximately 4 KB that will be used in multiple transactions:
 - The script is paid for once at creation and amortized over many uses
 - Reduces per-transaction size significantly
 
-### Step 5: Verify and benchmark
+### Step 6: Verify and benchmark
 
 After applying optimizations, the user should verify:
 
@@ -216,7 +225,7 @@ mem:          234,567      198,432     -15.4%
 size:           4,567        3,890     -14.8%
 ```
 
-### Step 6: Document trade-offs
+### Step 7: Document trade-offs
 
 If any optimization involves a trade-off (e.g., increased size for lower CPU), document:
 - What was changed and why
@@ -226,7 +235,7 @@ If any optimization involves a trade-off (e.g., increased size for lower CPU), d
 ## References
 
 - `references/uplc-cost-model.md` -- UPLC cost model basics, operation costs, and budget limits
-- Search project documentation for benchmark results and performance requirements
+- Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for benchmark results and performance requirements
 - Aiken documentation on optimization: https://aiken-lang.org
 - Use `aiken build --trace-level silent` for production builds
 - Use `aiken bench` for execution unit measurements

@@ -10,6 +10,8 @@ allowed-tools:
   - Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Debug Cardano Transaction
 
 Guide the user through diagnosing and fixing failing Cardano transactions.
@@ -65,7 +67,14 @@ Ask the user for:
 4. The transaction type (send, mint, script interaction, etc.)
 5. The code that builds the transaction (if available)
 
-### Step 2: Identify the Error Category
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/evolution-sdk/` - Evolution SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/mesh-sdk/` - Mesh SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/cardano-node-wiki/` - Cardano node wiki
+
+### Step 3: Identify the Error Category
 
 Classify the error into one of these categories:
 
@@ -80,10 +89,10 @@ Classify the error into one of these categories:
 | Signer errors | `MissingRequiredSigners` | Required signature not included |
 | Validity errors | `OutsideValidityIntervalUTxO` | Transaction time range does not match current slot |
 
-Search project documentation or see `references/common-errors.md` for
+Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` or see `references/common-errors.md` for
 detailed error explanations.
 
-### Step 3: Diagnose the Root Cause
+### Step 4: Diagnose the Root Cause
 
 For each error category, follow these diagnostic steps:
 
@@ -151,7 +160,7 @@ For each error category, follow these diagnostic steps:
    enough for the script's `must_be_before` / `must_be_after` checks
 4. Account for slot-to-POSIX-time conversion
 
-### Step 4: Apply the Fix
+### Step 5: Apply the Fix
 
 Once the root cause is identified:
 
@@ -161,14 +170,14 @@ Once the root cause is identified:
    "change the output value from X to Y")
 4. Explain how the fix addresses the root cause
 
-### Step 5: Verify the Fix
+### Step 6: Verify the Fix
 
 1. Use transaction evaluation (dry run) to test before submitting
 2. Submit to testnet first
 3. Verify on a block explorer that the transaction succeeded
 4. Check all outputs match expectations
 
-### Step 6: Prevention
+### Step 7: Prevention
 
 Suggest practices to avoid the error in the future:
 
@@ -224,5 +233,5 @@ When `ExUnitsTooBigUTxO` occurs:
 ## References
 
 - `references/common-errors.md` -- complete error reference with causes and fixes
-- Search project documentation for SDK-specific error handling guides
+- Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for SDK-specific error handling guides
 - Cardano ledger errors: https://github.com/IntersectMBO/cardano-ledger

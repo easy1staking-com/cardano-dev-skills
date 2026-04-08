@@ -10,6 +10,8 @@ allowed-tools:
   - Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Design Cardano Native Token
 
 Guide the user through designing a Cardano native token: choosing the right
@@ -68,9 +70,17 @@ Ask the user what they are building:
 | Rich Fungible Token | Fungible with detailed on-chain metadata | CIP-68 (label 444) |
 | Programmable Token | Token with on-chain behavior rules | CIP-113 |
 
-### Step 2: Choose the CIP Standard
+### Step 2: Search Bundled Documentation
 
-Search project documentation for detailed CIP comparisons.
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/cips/` - CIP specifications (CIP-25, CIP-68, CIP-113)
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/mesh-sdk/` - Mesh SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/evolution-sdk/` - Evolution SDK docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken/` - Aiken language docs
+
+### Step 3: Choose the CIP Standard
+
+Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for detailed CIP comparisons.
 
 **CIP-25 (Simple Metadata)**
 - Metadata stored in transaction metadata (label 721)
@@ -95,7 +105,7 @@ Search project documentation for detailed CIP comparisons.
 
 See `references/cip-token-standards.md` for a detailed comparison.
 
-### Step 3: Design the Minting Policy
+### Step 4: Design the Minting Policy
 
 The minting policy is a Cardano script that authorizes token creation.
 
@@ -126,7 +136,7 @@ The minting policy is a Cardano script that authorizes token creation.
 - **CIP-68 minting:** Must mint the reference token (label 100)
   alongside the user token (label 222/333/444) in the same transaction.
 
-### Step 4: Design the Metadata Structure
+### Step 5: Design the Metadata Structure
 
 #### CIP-25 Metadata
 
@@ -180,7 +190,7 @@ The datum structure is: `Constr 0 [metadata_map, version, extra]`
 - `version`: integer version number
 - `extra`: application-specific data (use `Constr 0 []` for none)
 
-### Step 5: Plan the Asset Name Encoding
+### Step 6: Plan the Asset Name Encoding
 
 Token asset names are byte strings (max 32 bytes). Conventions:
 
@@ -192,7 +202,7 @@ Token asset names are byte strings (max 32 bytes). Conventions:
   - FT user token: `0014df10` + name bytes (label 333)
   - RFT user token: `001bc280` + name bytes (label 444)
 
-### Step 6: Architecture Decisions
+### Step 7: Architecture Decisions
 
 Guide the user through these design choices:
 
@@ -207,7 +217,7 @@ Guide the user through these design choices:
 - **Collection grouping:** All tokens under one policy ID form a
   "collection." Use one policy per logical collection.
 
-### Step 7: Ecosystem Compatibility Checklist
+### Step 8: Ecosystem Compatibility Checklist
 
 Verify the design works with:
 
@@ -238,4 +248,4 @@ Verify the design works with:
 - CIP-68: https://cips.cardano.org/cip/CIP-68
 - CIP-113: https://cips.cardano.org/cip/CIP-113
 - CIP-27 (Royalties): https://cips.cardano.org/cip/CIP-27
-- Search project documentation for minting policy patterns and examples
+- Search `${CLAUDE_SKILL_DIR}/../../docs/sources/` for minting policy patterns and examples

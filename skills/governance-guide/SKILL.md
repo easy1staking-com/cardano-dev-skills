@@ -5,6 +5,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Cardano On-Chain Governance Guide
 
 Help developers, DReps, SPOs, and ADA holders understand and participate in Cardano's on-chain governance system introduced by CIP-1694 in the Conway era.
@@ -43,7 +45,14 @@ Ask the developer (if not already clear):
 - **What is your role?** (developer | drep | stake-pool-operator | ada-holder)
 - **What do you want to do?** (understand governance | vote | build governance features | register as DRep)
 
-### Step 2: Explain how governance works
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/cips/` - CIP specifications (CIP-1694, CIP-95)
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/sancho-net/` - SanchoNet governance testnet docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/govtool/` - GovTool docs
+
+### Step 3: Explain how governance works
 
 Reference the CIP-1694 summary for detailed structure:
 
@@ -71,7 +80,7 @@ Cardano governance has three pillars:
 | Treasury withdrawal | Yes | No | Yes |
 | Info action | Yes | Yes | No |
 
-### Step 3: Role-specific guidance
+### Step 4: Role-specific guidance
 
 #### For developers
 
@@ -131,7 +140,7 @@ Cardano governance has three pillars:
 4. **Become a DRep yourself**: Register and vote directly
 5. **Use GovTool**: Web interface for delegation and exploration
 
-### Step 4: Tools and resources
+### Step 5: Tools and resources
 
 #### GovTool
 
@@ -169,7 +178,7 @@ cardano-cli conway query gov-state
 cardano-cli conway query drep-state --all-dreps
 ```
 
-### Step 5: SDK integration examples
+### Step 6: SDK integration examples
 
 #### Querying governance data
 
@@ -199,7 +208,7 @@ tx.drepRegistrationCertificate(drepKeyHash, deposit);
 // ... build, sign, submit
 ```
 
-### Step 6: Common issues
+### Step 7: Common issues
 
 - **Deposit requirements**: DRep registration and proposals require deposits (returned when deregistered/enacted)
 - **Voting thresholds**: Different action types have different thresholds (see CIP-1694 summary)

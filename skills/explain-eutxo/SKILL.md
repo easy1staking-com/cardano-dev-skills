@@ -8,6 +8,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Explain eUTxO
 
 Help developers understand Cardano's extended UTxO (eUTxO) model, especially those
@@ -102,7 +104,14 @@ Determine:
 - Are they coming from Ethereum/Solidity, another blockchain, or web2?
 - Do they need a high-level overview or a detailed technical explanation?
 
-### Step 2: Explain using analogies from their background
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/plutus/` - Plutus docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/aiken/` - Aiken language docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/developer-portal/` - Cardano Developer Portal
+
+### Step 3: Explain using analogies from their background
 
 For Ethereum developers, use the mapping table above. For web2 developers, use analogies:
 - **UTxO** = a sealed envelope containing money and a note (datum). To use the money, you
@@ -112,14 +121,14 @@ For Ethereum developers, use the mapping table above. For web2 developers, use a
 - **Script Context** = security camera footage of the entire operation, so the lock can
   verify what you are doing with the contents.
 
-### Step 3: Provide a practical scenario
+### Step 4: Provide a practical scenario
 
 Show **when** a developer encounters this concept. Examples:
 - "You want to lock ADA so only a specific person can claim it" -> spending validator with datum containing the beneficiary's key hash
 - "You want to create a token" -> minting policy that validates the conditions under which tokens can be minted/burned
 - "You want to read on-chain data without spending it" -> reference inputs (CIP-31)
 
-### Step 4: Show a code example
+### Step 5: Show a code example
 
 Provide a minimal Aiken validator plus the off-chain interaction pattern:
 
@@ -155,7 +164,7 @@ Off-chain pattern (conceptual):
    beneficiary's signature, and sets `valid_after` past the deadline
 4. Sign and submit
 
-### Step 5: Highlight common mistakes
+### Step 6: Highlight common mistakes
 
 - **Forgetting the datum on outputs:** When sending to a script address, always attach a
   datum. UTxOs without datums at script addresses are unspendable.

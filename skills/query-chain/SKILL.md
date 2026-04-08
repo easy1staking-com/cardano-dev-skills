@@ -5,6 +5,8 @@ description: >-
 allowed-tools: Read Grep Glob
 ---
 
+<!-- Documentation lookup path: ${CLAUDE_SKILL_DIR}/../../docs/sources/ -->
+
 # Query Cardano Chain Data
 
 Help the developer choose and use the right data provider for querying the Cardano blockchain.
@@ -44,7 +46,16 @@ Ask the developer (if not already clear):
 - **Are you running your own Cardano node?**
 - **What language/SDK are you using?**
 
-### Step 2: Evaluate providers for the context
+### Step 2: Search Bundled Documentation
+
+Search the bundled documentation for relevant content:
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/ogmios/` - Ogmios WebSocket bridge docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/blockfrost-openapi/` - Blockfrost API docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/koios/` - Koios API docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/cardano-graphql/` - Cardano GraphQL docs
+- `${CLAUDE_SKILL_DIR}/../../docs/sources/db-sync/` - DB-Sync docs
+
+### Step 3: Evaluate providers for the context
 
 Search the reference file for detailed provider comparisons.
 
@@ -61,7 +72,7 @@ File: skills/infrastructure/query-chain/references/provider-comparison.md
 | **data-pipeline** | Oura (streaming) or DB-Sync (SQL) | Cardano GraphQL |
 | **one-off-query** | Koios (free, no signup) or Blockfrost | cardano-cli with local node |
 
-### Step 3: Describe each viable option
+### Step 4: Describe each viable option
 
 For each provider that fits the developer's context, explain:
 
@@ -70,7 +81,7 @@ For each provider that fits the developer's context, explain:
 3. **Code example** -- using their SDK/language of choice
 4. **Limitations** -- rate limits, missing data, latency
 
-### Step 4: Provider-specific guidance
+### Step 5: Provider-specific guidance
 
 #### Blockfrost (Hosted REST API)
 
@@ -131,7 +142,7 @@ GET /epochs/latest/parameters
 - Filters and maps chain events
 - Best for: real-time event processing, data pipelines, notifications
 
-### Step 5: Provide working code
+### Step 6: Provide working code
 
 Give the developer a working code snippet for their chosen provider and language. Always include:
 
@@ -141,7 +152,7 @@ Give the developer a working code snippet for their chosen provider and language
 - Error handling
 - Response parsing
 
-### Step 6: Address common issues
+### Step 7: Address common issues
 
 - **Stale data**: Hosted APIs may lag behind chain tip by a few seconds
 - **Datum resolution**: Not all providers return inline datums; may need separate lookup
