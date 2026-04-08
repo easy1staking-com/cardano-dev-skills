@@ -1,0 +1,18 @@
+type: array
+items:
+  type: object
+  properties:
+    drep_id:
+      type: string
+      description: The Bech32 encoded DRep address
+    hex:
+      type: string
+      description: The raw bytes of the DRep
+  required:
+    - drep_id
+    - hex
+example:
+  - drep_id: "drep1mvdu8slennngja7w4un6knwezufra70887zuxpprd64jxfveahn"
+    hex: "db1bc3c3f99ce68977ceaf27ab4dd917123ef9e73f85c304236eab23"
+  - drep_id: "drep1cxayn4fgy27yaucvhamsvqj3v6835mh3tjjx6x8hdnr4"
+    hex: "c1ba49d52822bc4ef30cbf77060251668f1a6ef15ca46d18f76cc758"

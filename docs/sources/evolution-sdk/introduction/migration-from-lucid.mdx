@@ -1,0 +1,131 @@
+---
+title: Migration from Lucid
+description: Guide for migrating from Lucid Evolution
+---
+
+# Migration from Lucid
+
+Lucid Evolution provides solid functionality, but Evolution SDK takes it further with enhanced type safety through Effect-TS, better composability, and modular provider switching. The core concepts remain the same—you're still building, signing, and submitting transactions—but the API is restructured for a better developer experience.
+
+This guide helps you transition your existing Lucid code. The migration is straightforward for most use cases: update imports, restructure client initialization, and adjust a few method calls. You'll find the patterns familiar, just with stronger compile-time guarantees.
+
+Migrate when you need better type safety, want to leverage Effect patterns, or are starting a new feature where you can adopt the new SDK without rewriting everything at once.
+
+## Key API Changes
+
+The main differences you'll encounter:
+
+| Aspect                   | Change                                 |
+| ------------------------ | -------------------------------------- |
+| **Imports**              | Deno URLs → npm package                |
+| **Client creation**      | Separate calls → unified config object |
+| **Transaction building** | Same chainable pattern                 |
+| **Error handling**       | try/catch → Effect Result types        |
+| **Provider setup**       | Implicit → explicit config             |
+
+## Updating Your Code
+
+### Client Initialization
+
+**Before (Lucid):**
+
+```typescript
+import { Lucid } from "https://deno.land/x/lucid/mod.ts"
+
+const lucid = await Lucid.new(blockfrostProvider, "Preprod")
+```
+
+**Evolution SDK:**
+
+```ts twoslash
+import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+
+const client = makeClient(preprod)
+  .withBlockfrost({
+    baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
+    projectId: "your-project-id"
+  })
+  .withSeed({
+    mnemonic: "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+    accountIndex: 0
+  })
+```
+
+### Building Transactions
+
+**Lucid:**
+
+```typescript
+lucid.newTx().payToAddress("addr...", { lovelace: 2000000n }).complete()
+```
+
+**Evolution SDK:**
+
+```ts twoslash
+import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+
+const client = makeClient(preprod)
+  .withBlockfrost({
+    baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
+    projectId: "your-project-id"
+  })
+  .withSeed({
+    mnemonic: "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+    accountIndex: 0
+  })
+
+// ---cut---
+const tx = await client
+  .newTx()
+  .payToAddress({
+    address: Address.fromBech32(
+      "addr_test1qzrf9g3ea6hdc5vfujgrpjc0c0xq3qqkz8zkpwh3s6nqzhgey8k3eq73kr0gcqd7cyy75s0qqx0qqx0qqx0qqx0qx7e8pq"
+    ),
+    assets: Assets.fromLovelace(2_000_000n)
+  })
+  .build()
+```
+
+## Common Patterns
+
+Here are the typical changes you'll make throughout your codebase:
+
+| Lucid                          | Evolution SDK                                 |
+| ------------------------------ | --------------------------------------------- |
+| `Lucid.new(provider, network)` | `client(network).withBlockfrost(...).withSeed(...)` |
+| `.payToAddress(addr, assets)`  | `.payToAddress({ address, assets })`          |
+| `.complete()`                  | `.build()`                                    |
+| `.signWithWallet()`            | `tx.sign()`                                   |
+| `.submit()`                    | `signed.submit()`                             |
+| try/catch errors               | Effect Result types                           |
+
+Evolution SDK uses staged capability assembly and explicit method parameters for better type inference and clearer intent.
+
+## Migration Strategy
+
+Start by identifying isolated modules or new features where you can adopt Evolution SDK without touching existing Lucid code. This lets you learn the patterns incrementally while keeping your app functional.
+
+Key steps:
+
+1. Install `@evolution-sdk/evolution` alongside Lucid (they can coexist)
+2. Update one module at a time, starting with simpler transaction flows
+3. Test thoroughly on testnet before touching mainnet code
+4. Gradually expand to more complex features once comfortable
+
+## What Stays the Same
+
+The blockchain fundamentals haven't changed:
+
+- UTxO model and transaction structure
+- Address formats and validation
+- Signing and key management concepts
+- Network parameters and protocol rules
+
+You're learning a new API for familiar concepts, not relearning Cardano itself.
+
+## Next Steps
+
+- [Getting Started](/docs/introduction/getting-started) - Build your first Evolution SDK transaction
+- [Wallets](/docs/wallets) - Wallet types and key management
+- [Transactions](/docs/transactions) - Advanced transaction building
+- [API Reference](/docs/modules) - Complete API documentation

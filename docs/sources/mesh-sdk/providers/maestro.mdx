@@ -1,0 +1,793 @@
+---
+title: "Maestro Provider"
+description: "Connect to Cardano using Maestro's enterprise-grade blockchain infrastructure"
+---
+
+import Link from "fumadocs-core/link";
+
+## Overview
+
+<Link href="https://www.gomaestro.org/">Maestro</Link> provides enterprise-grade blockchain infrastructure for Cardano, Bitcoin, and Dogecoin. It offers advanced UTxO indexing, transaction monitoring, and smart contract APIs.
+
+**Key features:**
+- Enterprise-grade onchain data access
+- Transaction monitoring with submission retries and rollback notifications
+- Turbo transaction submission for accelerated finality
+- High-fidelity smart contract data feeds
+- Fully managed smart contract APIs
+
+**Use Maestro when you need:**
+- Production-ready infrastructure for DeFi applications
+- Faster transaction finality with turbo submit
+- Real-time transaction monitoring and notifications
+- Enterprise support and SLAs
+
+## Quick Start
+
+Install the MeshJS package:
+
+```bash
+npm install @meshsdk/core
+```
+
+Initialize the provider:
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+```
+
+Fetch blockchain data:
+
+```tsx
+// Fetch UTxOs from an address
+const utxos = await provider.fetchAddressUTxOs(
+  "addr_test1qpvx0sacufuypa2k4sngk7q40zc5c4npl337uusdh64kv0uafhxhu32dys6pvn6wlw8dav6cmp4pmtv7cc3yel9uu0nq93swx9"
+);
+
+// Submit a transaction
+const txHash = await provider.submitTx(signedTx);
+```
+
+Get your API key from <Link href="https://docs.gomaestro.org/">Maestro Documentation</Link>.
+
+## Configuration Options
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `network` | `"Mainnet" \| "Preprod" \| "Preview"` | Yes | The Cardano network to connect to |
+| `apiKey` | `string` | Yes | Your Maestro API key |
+| `turboSubmit` | `boolean` | No | Enable turbo transaction submission (default: false) |
+
+### Turbo Submit
+
+Turbo submit accelerates transaction finality by using Maestro's optimized submission infrastructure. This is a paid feature - read more at <Link href="https://docs.gomaestro.org">Maestro Documentation</Link>.
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Mainnet",
+  apiKey: "<YOUR_API_KEY>",
+  turboSubmit: true,
+});
+```
+
+## API Reference
+
+### get
+
+Fetch data from any Maestro API endpoint.
+
+```tsx
+await provider.get(endpoint: string): Promise<any>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `endpoint` | `string` | Yes | The API endpoint path |
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const transactions = await provider.get(
+  "/addresses/addr_test1qpvx0sacufuypa2k4sngk7q40zc5c4npl337uusdh64kv0uafhxhu32dys6pvn6wlw8dav6cmp4pmtv7cc3yel9uu0nq93swx9/transactions"
+);
+```
+
+---
+
+### fetchAccountInfo
+
+Retrieve information about a stake account.
+
+```tsx
+await provider.fetchAccountInfo(address: string): Promise<AccountInfo>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `address` | `string` | Yes | The stake address (bech32 format) |
+
+**Returns:** `AccountInfo` object containing balance, rewards, and delegation status.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const accountInfo = await provider.fetchAccountInfo(
+  "stake_test1uzw5mnt7g4xjgdqkfa80hrk7kdvds6sa4k0vvgjvlj7w8eskffj2n"
+);
+
+console.log(accountInfo.balance);
+console.log(accountInfo.rewards);
+```
+
+---
+
+### fetchAddressAssets
+
+Fetch all assets held by an address.
+
+```tsx
+await provider.fetchAddressAssets(address: string): Promise<Asset[]>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `address` | `string` | Yes | The wallet address (bech32 format) |
+
+**Returns:** Array of `Asset` objects with `unit` and `quantity`.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const assets = await provider.fetchAddressAssets(
+  "addr_test1qpvx0sacufuypa2k4sngk7q40zc5c4npl337uusdh64kv0uafhxhu32dys6pvn6wlw8dav6cmp4pmtv7cc3yel9uu0nq93swx9"
+);
+
+assets.forEach((asset) => {
+  console.log(`${asset.unit}: ${asset.quantity}`);
+});
+```
+
+---
+
+### fetchAddressUTxOs
+
+Fetch UTxOs controlled by an address, optionally filtered by asset.
+
+```tsx
+await provider.fetchAddressUTxOs(address: string, asset?: string): Promise<UTxO[]>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `address` | `string` | Yes | The wallet address (bech32 format) |
+| `asset` | `string` | No | Filter by asset unit (policy ID + asset name hex) |
+
+**Returns:** Array of `UTxO` objects.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+// Fetch all UTxOs
+const utxos = await provider.fetchAddressUTxOs(
+  "addr_test1qpvx0sacufuypa2k4sngk7q40zc5c4npl337uusdh64kv0uafhxhu32dys6pvn6wlw8dav6cmp4pmtv7cc3yel9uu0nq93swx9"
+);
+
+// Fetch UTxOs containing a specific asset
+const filteredUtxos = await provider.fetchAddressUTxOs(
+  "addr_test1qpvx0sacufuypa2k4sngk7q40zc5c4npl337uusdh64kv0uafhxhu32dys6pvn6wlw8dav6cmp4pmtv7cc3yel9uu0nq93swx9",
+  "d9312da562da182b02322fd8acb536f37eb9d29fba7c49dc172555274d657368546f6b656e"
+);
+```
+
+---
+
+### fetchAssetAddresses
+
+Fetch all addresses holding a specific asset.
+
+```tsx
+await provider.fetchAssetAddresses(asset: string): Promise<AssetAddress[]>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `asset` | `string` | Yes | The asset unit (policy ID + asset name hex) |
+
+**Returns:** Array of addresses and quantities.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const holders = await provider.fetchAssetAddresses(
+  "d9312da562da182b02322fd8acb536f37eb9d29fba7c49dc172555274d657368546f6b656e"
+);
+
+holders.forEach((holder) => {
+  console.log(`${holder.address}: ${holder.quantity}`);
+});
+```
+
+---
+
+### fetchAssetMetadata
+
+Fetch metadata for an asset.
+
+```tsx
+await provider.fetchAssetMetadata(asset: string): Promise<AssetMetadata>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `asset` | `string` | Yes | The asset unit (policy ID + asset name hex) |
+
+**Returns:** `AssetMetadata` object with name, image, and other metadata fields.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const metadata = await provider.fetchAssetMetadata(
+  "d9312da562da182b02322fd8acb536f37eb9d29fba7c49dc172555274d657368546f6b656e"
+);
+
+console.log(metadata.name);
+console.log(metadata.image);
+```
+
+---
+
+### fetchBlockInfo
+
+Fetch information about a block.
+
+```tsx
+await provider.fetchBlockInfo(hash: string): Promise<BlockInfo>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `hash` | `string` | Yes | The block hash |
+
+**Returns:** `BlockInfo` object with block details.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const blockInfo = await provider.fetchBlockInfo(
+  "79f60880b097ec7dabb81f75f0b52fedf5e922d4f779a11c0c432dcf22c56089"
+);
+
+console.log(blockInfo.slot);
+console.log(blockInfo.time);
+```
+
+---
+
+### fetchCollectionAssets
+
+Fetch all assets in an NFT collection by policy ID.
+
+```tsx
+await provider.fetchCollectionAssets(policyId: string, cursor?: number): Promise<{ assets: Asset[]; next: number | null }>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `policyId` | `string` | Yes | The policy ID of the collection |
+| `cursor` | `number` | No | Pagination cursor (default: 1) |
+
+**Returns:** Object with `assets` array and `next` cursor for pagination.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+// Fetch first page
+const result = await provider.fetchCollectionAssets(
+  "d9312da562da182b02322fd8acb536f37eb9d29fba7c49dc17255527"
+);
+
+console.log(result.assets);
+
+// Fetch next page if available
+if (result.next) {
+  const nextPage = await provider.fetchCollectionAssets(
+    "d9312da562da182b02322fd8acb536f37eb9d29fba7c49dc17255527",
+    result.next
+  );
+}
+```
+
+---
+
+### fetchHandleAddress
+
+Resolve an ADA Handle to its associated address.
+
+```tsx
+await provider.fetchHandleAddress(handle: string): Promise<string>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `handle` | `string` | Yes | The ADA Handle (without $) |
+
+**Returns:** The resolved Cardano address.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Mainnet",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const address = await provider.fetchHandleAddress("meshsdk");
+console.log(address);
+```
+
+---
+
+### fetchHandle
+
+Fetch CIP-68 handle metadata.
+
+```tsx
+await provider.fetchHandle(handle: string): Promise<HandleMetadata>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `handle` | `string` | Yes | The ADA Handle (without $) |
+
+**Returns:** Handle metadata including CIP-68 fields.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Mainnet",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const handleData = await provider.fetchHandle("meshsdk");
+console.log(handleData);
+```
+
+---
+
+### fetchProtocolParameters
+
+Fetch the current protocol parameters.
+
+```tsx
+await provider.fetchProtocolParameters(epoch?: number): Promise<Protocol>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `epoch` | `number` | No | Specific epoch (default: current epoch) |
+
+**Returns:** `Protocol` object with all protocol parameters.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const params = await provider.fetchProtocolParameters();
+
+console.log(params.minFeeA);
+console.log(params.minFeeB);
+console.log(params.maxTxSize);
+```
+
+---
+
+### fetchTxInfo
+
+Fetch information about a confirmed transaction.
+
+```tsx
+await provider.fetchTxInfo(hash: string): Promise<TransactionInfo>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `hash` | `string` | Yes | The transaction hash |
+
+**Returns:** `TransactionInfo` object with transaction details.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const txInfo = await provider.fetchTxInfo(
+  "f4ec9833a3bf95403d395f699bc564938f3419537e7fb5084425d3838a4b6159"
+);
+
+console.log(txInfo.block);
+console.log(txInfo.fees);
+```
+
+---
+
+### fetchUTxOs
+
+Fetch UTxOs by transaction hash.
+
+```tsx
+await provider.fetchUTxOs(hash: string, index?: number): Promise<UTxO[]>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `hash` | `string` | Yes | The transaction hash |
+| `index` | `number` | No | Specific output index |
+
+**Returns:** Array of `UTxO` objects.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+// Fetch all UTxOs from a transaction
+const utxos = await provider.fetchUTxOs(
+  "dfd2a2616e6154a092807b1ceebb9ddcadc0f22cf5c8e0e6b0757815083ccb70"
+);
+
+// Fetch specific output
+const specificUtxo = await provider.fetchUTxOs(
+  "dfd2a2616e6154a092807b1ceebb9ddcadc0f22cf5c8e0e6b0757815083ccb70",
+  0
+);
+```
+
+---
+
+### fetchGovernanceProposal
+
+Fetch information about a governance proposal.
+
+```tsx
+await provider.fetchGovernanceProposal(txHash: string, certIndex: number): Promise<ProposalInfo>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `txHash` | `string` | Yes | The proposal transaction hash |
+| `certIndex` | `number` | Yes | The certificate index |
+
+**Returns:** `ProposalInfo` object with proposal details.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const proposal = await provider.fetchGovernanceProposal(
+  "372d688faa77e146798b581b322c0f2981a9023764736ade5d12e0e4e796af8c",
+  0
+);
+```
+
+---
+
+### evaluateTx
+
+Evaluate a transaction to determine script execution costs.
+
+```tsx
+await provider.evaluateTx(tx: string): Promise<Omit<Action, "data">[]>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `tx` | `string` | Yes | The unsigned transaction CBOR hex |
+
+**Returns:** Array of execution cost estimates for each script.
+
+**Example:**
+
+```tsx
+import { MaestroProvider, MeshTxBuilder } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const txBuilder = new MeshTxBuilder({ fetcher: provider });
+
+// Build a transaction that interacts with a smart contract
+const unsignedTx = await txBuilder
+  // ... transaction building code
+  .complete();
+
+// Evaluate to get execution costs
+const evaluation = await provider.evaluateTx(unsignedTx);
+
+console.log(evaluation);
+// [
+//   {
+//     index: 0,
+//     tag: "SPEND",
+//     budget: {
+//       mem: 1700,
+//       steps: 368100
+//     }
+//   }
+// ]
+```
+
+Use the evaluation results to set precise redeemer budgets:
+
+```tsx
+const redeemer = {
+  data: { alternative: 0, fields: [...] },
+  budget: {
+    mem: evaluation[0].budget.mem,
+    steps: evaluation[0].budget.steps,
+  },
+};
+```
+
+---
+
+### submitTx
+
+Submit a signed transaction to the network.
+
+```tsx
+await provider.submitTx(tx: string): Promise<string>
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `tx` | `string` | Yes | The signed transaction CBOR hex |
+
+**Returns:** The transaction hash.
+
+**Example:**
+
+```tsx
+import { MaestroProvider } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const txHash = await provider.submitTx(signedTx);
+console.log(`Transaction submitted: ${txHash}`);
+```
+
+---
+
+### onTxConfirmed
+
+Listen for transaction confirmation.
+
+```tsx
+provider.onTxConfirmed(txHash: string, callback: () => void, limit?: number): void
+```
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `txHash` | `string` | Yes | The transaction hash to monitor |
+| `callback` | `() => void` | Yes | Function called when confirmed |
+| `limit` | `number` | No | Maximum confirmation checks |
+
+**Example:**
+
+```tsx
+import { MaestroProvider, MeshTxBuilder } from "@meshsdk/core";
+
+const provider = new MaestroProvider({
+  network: "Preprod",
+  apiKey: "<YOUR_API_KEY>",
+});
+
+const txBuilder = new MeshTxBuilder({ fetcher: provider });
+
+const unsignedTx = await txBuilder
+  .txOut("addr_test1vpvx0sacufuypa2k4sngk7q40zc5c4npl337uusdh64kv0c7e4cxr", [
+    { unit: "lovelace", quantity: "5000000" },
+  ])
+  .changeAddress(changeAddress)
+  .selectUtxosFrom(utxos)
+  .complete();
+
+const signedTx = await wallet.signTx(unsignedTx);
+const txHash = await provider.submitTx(signedTx);
+
+provider.onTxConfirmed(txHash, () => {
+  console.log("Transaction confirmed!");
+});
+```
+
+## Complete Example
+
+```tsx
+import { MaestroProvider, MeshTxBuilder } from "@meshsdk/core";
+import { MeshCardanoHeadlessWallet, AddressType } from "@meshsdk/wallet";
+
+async function sendAda() {
+  // Initialize provider with turbo submit
+  const provider = new MaestroProvider({
+    network: "Preprod",
+    apiKey: "<YOUR_API_KEY>",
+    turboSubmit: true,
+  });
+
+  // Initialize wallet
+  const wallet = await MeshCardanoHeadlessWallet.fromMnemonic({
+    networkId: 0,
+    walletAddressType: AddressType.Base,
+    fetcher: provider,
+    submitter: provider,
+    mnemonic: ["your", "mnemonic", "phrase", "..."],
+  });
+
+  // Get wallet data
+  const utxos = await wallet.getUtxosMesh();
+  const changeAddress = await wallet.getChangeAddressBech32();
+
+  // Build transaction
+  const txBuilder = new MeshTxBuilder({ fetcher: provider });
+
+  const unsignedTx = await txBuilder
+    .txOut("addr_test1qpvx0sacufuypa2k4sngk7q40zc5c4npl337uusdh64kv0uafhxhu32dys6pvn6wlw8dav6cmp4pmtv7cc3yel9uu0nq93swx9", [
+      { unit: "lovelace", quantity: "5000000" },
+    ])
+    .changeAddress(changeAddress)
+    .selectUtxosFrom(utxos)
+    .complete();
+
+  // Sign and submit
+  const signedTx = await wallet.signTx(unsignedTx, false);
+  const txHash = await provider.submitTx(signedTx);
+
+  console.log(`Transaction submitted: ${txHash}`);
+
+  // Wait for confirmation
+  provider.onTxConfirmed(txHash, () => {
+    console.log("Transaction confirmed!");
+  });
+}
+```
+
+## Troubleshooting
+
+### API Key Issues
+
+**Problem:** Requests return 401 Unauthorized.
+
+**Solution:** Verify your API key is valid and has not expired. Get a new key from <Link href="https://docs.gomaestro.org/">Maestro Dashboard</Link>.
+
+### Rate Limiting
+
+**Problem:** Requests fail with 429 Too Many Requests.
+
+**Solution:** Maestro has rate limits based on your plan. Implement retry logic with exponential backoff, or upgrade your plan for higher limits.
+
+### Turbo Submit Not Working
+
+**Problem:** Transactions still take normal time despite `turboSubmit: true`.
+
+**Solution:** Turbo submit is a paid feature. Ensure your Maestro plan includes turbo submit access.
+
+### Network Configuration
+
+**Problem:** Addresses or transactions not found.
+
+**Solution:** Ensure the `network` parameter matches your addresses. Use "Mainnet" for `addr1` addresses and "Preprod" or "Preview" for `addr_test1` addresses.
+
+### Script Evaluation Failures
+
+**Problem:** `evaluateTx` returns errors.
+
+**Solution:** Ensure all required UTxOs are available and the transaction is well-formed. The transaction must include script inputs for evaluation.
+
+## References
+
+- [Maestro API Documentation](https://docs.gomaestro.org/) - Official Maestro API reference, tutorials, and quickstart guides
+- [Maestro Platform](https://www.gomaestro.org/) - Enterprise-grade blockchain infrastructure for Cardano
+- [Cardano Developer Portal](https://developers.cardano.org) - Official Cardano development resources
+- [Cardano eUTXO Model](https://docs.cardano.org/about-cardano/learn/eutxo-explainer/) - Understanding the transaction model for smart contract evaluation
+
+## Related Links
+
+- <Link href="https://www.gomaestro.org/">Maestro Website</Link>
+- <Link href="https://docs.gomaestro.org/">Maestro Documentation</Link>
+- <Link href="https://docs.gomaestro.org/getting-started">Get API Key</Link>
+- <Link href="/apis/txbuilder/basics">Transaction Builder</Link>
+- <Link href="/smart-contracts">Smart Contracts</Link>

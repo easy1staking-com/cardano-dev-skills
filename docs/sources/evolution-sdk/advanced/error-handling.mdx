@@ -1,0 +1,104 @@
+---
+title: Error Handling
+description: Effect-based error handling patterns
+---
+
+# Error Handling
+
+Evolution SDK is built on Effect, providing structured error handling with typed errors. Every operation that can fail returns an `Effect<Success, Error>` type, making error cases explicit and composable.
+
+## Error Types
+
+| Error                       | When                                                          |
+| --------------------------- | ------------------------------------------------------------- |
+| **TransactionBuilderError** | Build phase failures (insufficient funds, invalid parameters) |
+| **ProviderError**           | Provider communication issues (network, API errors)           |
+| **EvaluationError**         | Plutus script evaluation failures                             |
+
+## Promise API (Default)
+
+The standard `.build()`, `.sign()`, `.submit()` methods return Promises. Errors throw as exceptions:
+
+```typescript twoslash
+import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+
+const client = makeClient(preprod)
+  .withBlockfrost({
+    baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
+    projectId: process.env.BLOCKFROST_API_KEY!
+  })
+  .withSeed({ mnemonic: process.env.WALLET_MNEMONIC!, accountIndex: 0 })
+
+try {
+  const tx = await client
+    .newTx()
+    .payToAddress({
+      address: Address.fromBech32("addr_test1vrm9x2dgvdau8vckj4duc89m638t8djmluqw5pdrFollw8qd9k63"),
+      assets: Assets.fromLovelace(2_000_000n)
+    })
+    .build()
+
+  const signed = await tx.sign()
+  await signed.submit()
+} catch (error) {
+  console.error("Transaction failed:", error)
+}
+```
+
+## Effect API
+
+Use `.buildEffect()` for composable error handling with Effect:
+
+```typescript twoslash
+import { Effect } from "effect"
+import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+
+const client = makeClient(preprod)
+  .withBlockfrost({
+    baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
+    projectId: process.env.BLOCKFROST_API_KEY!
+  })
+  .withSeed({ mnemonic: process.env.WALLET_MNEMONIC!, accountIndex: 0 })
+
+// Build returns an Effect — errors are values, not exceptions
+const program = client
+  .newTx()
+  .payToAddress({
+    address: Address.fromBech32("addr_test1vrm9x2dgvdau8vckj4duc89m638t8djmluqw5pdrFollw8qd9k63"),
+    assets: Assets.fromLovelace(2_000_000n)
+  })
+  .buildEffect()
+
+// Run with error handling
+// Effect.runPromise(program).catch(console.error)
+```
+
+## Either API
+
+Use `.buildEither()` for explicit success/failure without exceptions:
+
+```typescript twoslash
+import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+
+const client = makeClient(preprod)
+  .withBlockfrost({
+    baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
+    projectId: process.env.BLOCKFROST_API_KEY!
+  })
+  .withSeed({ mnemonic: process.env.WALLET_MNEMONIC!, accountIndex: 0 })
+
+const result = await client
+  .newTx()
+  .payToAddress({
+    address: Address.fromBech32("addr_test1vrm9x2dgvdau8vckj4duc89m638t8djmluqw5pdrFollw8qd9k63"),
+    assets: Assets.fromLovelace(2_000_000n)
+  })
+  .buildEither()
+
+// result is Either<Error, SignBuilder>
+```
+
+## Next Steps
+
+- [Architecture](/docs/advanced/architecture) — How errors flow through build phases
+- [TypeScript Tips](/docs/advanced/typescript) — Type patterns with Effect

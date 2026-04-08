@@ -2,7 +2,7 @@
 #
 # This is the canonical list of Cardano projects and their documentation.
 # The MCP server consumes this file to clone, chunk, and index docs.
-# Community contributions welcome — see docs/CONTRIBUTING.md.
+# Community contributions welcome - see docs/CONTRIBUTING.md.
 #
 # Schema:
 #   name: Human-readable project name
@@ -154,7 +154,7 @@
   glob_patterns:
     - "**/*.md"
     - "**/*.mdx"
-  description: Lightweight data node — fraction of full node resources
+  description: Lightweight data node - fraction of full node resources
   website: https://txpipe.github.io/dolos
 
 - name: Yaci Store
@@ -190,7 +190,7 @@
   priority: high
   glob_patterns:
     - "**/*.ak"
-  description: Aiken standard library — list, option, transaction helpers
+  description: Aiken standard library - list, option, transaction helpers
 
 - name: Aiken Examples
   repo: https://github.com/aiken-lang/aiken.git
@@ -319,7 +319,7 @@
   priority: high
   glob_patterns:
     - "**/*.mdx"
-  description: Leading open-source TypeScript SDK — tx builder, wallet connectors, React
+  description: Leading open-source TypeScript SDK - tx builder, wallet connectors, React
   website: https://meshjs.dev
 
 - name: Mesh SDK Packages
@@ -420,7 +420,7 @@
   glob_patterns:
     - "**/*.mdx"
     - "**/*.md"
-  description: Complete local devnet — instant creation, sub-second blocks
+  description: Complete local devnet - instant creation, sub-second blocks
   website: https://devkit.yaci.xyz
 
 # --- Governance (Conway Era) ---
@@ -434,7 +434,7 @@
   glob_patterns:
     - "**/*.md"
     - "**/*.mdx"
-  description: Official governance UI — register as DRep, delegate, vote
+  description: Official governance UI - register as DRep, delegate, vote
 
 - name: SanchoNet
   repo: https://github.com/input-output-hk/sanchonet.git
@@ -469,7 +469,7 @@
   priority: medium
   glob_patterns:
     - "**/*.md"
-  description: Next-gen consensus with Input Endorsers — 30-50x throughput
+  description: Next-gen consensus with Input Endorsers - 30-50x throughput
 
 # --- Standards & Portals ---
 
@@ -483,7 +483,7 @@
     - "CIP-*/README.md"
     - "CIP-*/**/*.md"
     - "CPS-*/README.md"
-  description: Cardano Improvement Proposals — all 170+ standards
+  description: Cardano Improvement Proposals - all 170+ standards
 
 - name: Developer Portal
   repo: https://github.com/cardano-foundation/developer-portal.git
@@ -504,7 +504,7 @@
   website: https://docs.cardano.org
 
 # =============================================================================
-# CANDIDATES — Not yet indexed, tracked for future addition
+# CANDIDATES - Not yet indexed, tracked for future addition
 # =============================================================================
 
 # --- Smart Contract Languages (candidates) ---

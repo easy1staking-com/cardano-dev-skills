@@ -10,6 +10,22 @@ Community-curated knowledge base for building on Cardano. This repo is a Claude 
 - `docs/DESIGN.md` — architectural decisions
 - `docs/CONTRIBUTING.md` — how to add sources, skills, and refresh content
 
+## Documentation Sources
+
+The `docs/sources/` directory contains documentation extracted from 40+ Cardano projects.
+When a skill or user needs to look up SDK APIs, CIP specs, or tool docs, search here first:
+
+```
+docs/sources/aiken/          # Aiken language docs
+docs/sources/mesh-sdk/       # Mesh SDK API docs
+docs/sources/evolution-sdk/  # Evolution SDK docs
+docs/sources/cips/           # All CIP proposals
+docs/sources/ogmios/         # Ogmios WebSocket bridge
+...
+```
+
+Use `Read` and `Grep` tools to search these directories for accurate, up-to-date information.
+
 ## Conventions
 
 - Skills follow the Agent Skills standard: SKILL.md with YAML frontmatter

@@ -15,7 +15,7 @@ Community-curated knowledge base for building on Cardano. Works as a Claude Code
 | Concepts | `explain-eutxo`, `explain-cip` |
 | Integration | `suggest-tooling`, `connect-wallet` |
 
-**40+ documentation sources** — a curated registry of Cardano projects and their docs in `registry/sources.yaml`.
+**40+ documentation sources** — 2,684 files (23MB) of extracted documentation from Cardano projects, bundled in `docs/sources/` and auto-refreshed weekly via GitHub Actions.
 
 ## Installation
 
@@ -63,14 +63,17 @@ Once installed, skills activate automatically based on your requests:
 - "What tools should I use for an NFT marketplace?" → `suggest-tooling`
 - "Set up a local Cardano devnet" → `setup-devnet`
 
-## Companion: Cardano MCP Server
+## Bundled Documentation
 
-This knowledge base pairs with the [Cardano Unified MCP Server](https://github.com/easy1staking-com/cardano-unified-mcp-server), which provides semantic search over 23,000+ documentation chunks from all 40+ sources.
+This repo includes **2,684 documentation files** (23MB) extracted from all 42 sources in `docs/sources/`. No external MCP server needed - Claude reads these files directly using `Read` and `Grep`.
 
-- **Skills** (this repo) = behavioral guidance — *how* to do things
-- **MCP Server** = factual reference — *what* the docs say
+Documentation is auto-refreshed weekly via GitHub Actions. To manually refresh:
 
-Both work independently. Together they provide the best experience.
+```bash
+./scripts/fetch-docs.sh
+```
+
+A `SessionStart` hook automatically checks doc freshness and notifies you if they're stale.
 
 ## Contributing
 
@@ -99,14 +102,12 @@ python3 scripts/validate.py
 See [docs/DESIGN.md](docs/DESIGN.md) for all architectural decisions.
 
 ```
-cardano-dev-skills/          ← content (this repo)
-├── registry/sources.yaml    ← what Cardano projects exist
-├── skills/                  ← how to build on Cardano
-└── scripts/                 ← validation and sync tooling
-
-cardano-unified-mcp-server/  ← infrastructure (separate repo)
-├── src/                     ← MCP server code
-└── data/docs.db             ← indexed documentation
+cardano-dev-skills/              ← this repo (self-contained)
+├── registry/sources.yaml        ← what Cardano projects exist
+├── skills/                      ← how to build on Cardano (13 skills)
+├── docs/sources/                ← extracted docs from 42 sources (23MB)
+├── hooks/                       ← SessionStart freshness check
+└── scripts/                     ← fetch, validate, sync tooling
 ```
 
 ## License

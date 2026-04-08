@@ -1,0 +1,157 @@
+---
+title: Mini Blockfrost
+sidebar:
+  order: 2
+---
+
+Dolos provides an HTTP endpoint to access data using [Blockfrost OpenAPI](https://github.com/blockfrost/openapi) specification.
+
+## Usage
+
+If enabled via configuration, _Dolos_ will expose a TCP port accepting HTTP connections. The default port number is `3000`, but this value can be changed via configuration.
+
+Once you have the daemon running you can hit the endpoint using any HTTP client (cURL, Postman, your browser, etc).
+
+This is an example of querying for the latest block using `curl`:
+
+```shell
+$ curl localhost:3000/blocks/latest | jq -S
+{
+  "block_vrf": "vrf_vk1wz88xjus636xa3u3qwmhwqqawf4dwed96yh7r6k9t36xtk2m635q4tfmmz",
+  "confirmations": 0,
+  "epoch": 895,
+  "epoch_slot": 74777,
+  "fees": "1088620",
+  "hash": "7577092717e9f764d9cda887beaf5b1da022f58fbe140f0c6f0e122fac7c383c",
+  "height": 3121489,
+  "next_block": null,
+  "op_cert": "221826dc3e1061793f486026c1e02416ac3829f38c3e7388acd3540ba46d576d",
+  "op_cert_counter": "7",
+  "output": "10106802795",
+  "previous_block": "1e16f870725c163da2f63301794c99c95861d01afbea75b8902f76485e5e8af8",
+  "size": 12025,
+  "slot": 77402777,
+  "slot_leader": "pool1vurgy6s6u7yq36shf9yspesh3rrnd36km8xkghpcr4smgfz278m",
+  "time": 1744058777,
+  "tx_count": 2
+}
+```
+
+### Using the Blockfrost SDKs
+
+Blockfrost's SDKs can (to the most part) be adapted to be used with the Dolos MiniBF endpoint.
+An example with the [Python SDK](https://github.com/blockfrost/blockfrost-python/) looks like this:
+
+```python
+import json
+
+from blockfrost import BlockFrostApi
+
+api = BlockFrostApi(
+    project_id=None,
+    base_url="http://localhost:3000",
+    api_version=None,
+)
+api.api_version = None  # The API version defaults to "v0" on __init__.
+
+print(json.dumps(api.block_latest().to_dict(), indent=2))
+```
+
+### Using a Tx Builder
+
+The endpoints required for most tx builders to work are supported. Libraries like Lucid, Lucid-evolution, Blaze, MeshJS, etc can be used by pointing their corresponding provider configuration to Dolos Mini-BF endpoint.
+ 
+
+## Configuration
+
+The `serve.minibf` section controls the options for the MiniBF endpoint that can be used by clients.
+
+| property           | type    | example                          |
+| ------------------ | ------- | -------------------------------- |
+| listen_address     | string  | "[::]:3000"                     |
+| permissive_cors    | boolean | true                             |
+| token_registry_url | string  | "https://token-registry.io"     |
+| url                | string  | "https://minibf.local"          |
+| max_scan_items     | integer | 3000                             |
+
+- `listen_address`: the local address (`IP:PORT`) to listen for incoming connections (`[::]` represents any IP address).
+- `permissive_cors`: allow cross-origin requests from any origin.
+- `token_registry_url`: optional token registry base URL used for off-chain asset metadata. 
+- `url`: optional public URL used in the `/` root response.
+- `max_scan_items`: caps page-based scans for heavy endpoints (defaults to 3000 if unset).
+
+This is an example of the `serve.minibf` fragment with a `dolos.toml` configuration file.
+
+```toml
+[serve.minibf]
+listen_address = "[::]:3000"
+permissive_cors = true
+token_registry_url = "https://token-registry.io"
+url = "https://minibf.local"
+max_scan_items = 3000
+```
+
+Check the [Configuration Schema](../configuration/schema) for detailed info on how to set this up.
+
+## Coverage
+
+Dolos provides many, but not all of the Blockfrost endpoints. The following list represent the endpoints currently supported by Dolos:
+
+| Endpoint                                   | Description                                              |
+|--------------------------------------------|----------------------------------------------------------|
+| `/`                                        | Service info (version, revision)                         |
+| `/health`                                  | Health check                                             |
+| `/health/clock`                            | Clock health                                             |
+| `/metrics`                                 | Prometheus metrics                                       |
+| `/accounts/{stake_address}`                | Get account information for a stake address              |
+| `/accounts/{stake_address}/addresses`      | Get addresses for a stake address                        |
+| `/accounts/{stake_address}/delegations`    | Get delegations for a stake address                      |
+| `/accounts/{stake_address}/registrations`  | Get registrations for a stake address                    |
+| `/accounts/{stake_address}/rewards`        | Get rewards for a stake address                          |
+| `/accounts/{stake_address}/utxos`          | Get UTXOs for a stake address                            |
+| `/addresses/{address}`                     | Get general information for a specific address           |
+| `/addresses/{address}/transactions`        | Get transactions for a specific address                  |
+| `/addresses/{address}/txs`                 | Alias of `/addresses/{address}/transactions`             |
+| `/addresses/{address}/utxos`               | Get UTXOs for a specific address                         |
+| `/addresses/{address}/utxos/{asset}`       | Get UTXOs for a specific address and asset               |
+| `/assets/{subject}`                        | Get asset information                                    |
+| `/assets/{subject}/addresses`              | Get addresses holding a specific asset                   |
+| `/assets/{subject}/transactions`           | Get transactions involving a specific asset              |
+| `/blocks/latest`                           | Get latest block information                             |
+| `/blocks/latest/txs`                       | Get transactions for the latest block                    |
+| `/blocks/slot/{slot_number}`               | Get block by slot number                                 |
+| `/blocks/{hash_or_number}`                 | Get block information                                    |
+| `/blocks/{hash_or_number}/addresses`       | Get addresses in a specific block                        |
+| `/blocks/{hash_or_number}/next`            | Get next block                                           |
+| `/blocks/{hash_or_number}/previous`        | Get previous block                                       |
+| `/blocks/{hash_or_number}/txs`             | Get transactions for a specific block                    |
+| `/epochs/latest/parameters`                | Get latest epoch parameters                              |
+| `/epochs/{epoch}/blocks`                   | Get blocks in a specific epoch                           |
+| `/epochs/{epoch}/parameters`               | Get epoch parameters                                     |
+| `/genesis`                                 | Get genesis information                                  |
+| `/governance/dreps/{drep_id}`              | Get DRep information                                     |
+| `/metadata/txs/labels/{label}`             | Get metadata for transactions with a specific label      |
+| `/metadata/txs/labels/{label}/cbor`        | Get CBOR metadata for transactions with a specific label |
+| `/network`                                 | Get network information                                  |
+| `/network/eras`                            | Get network eras information                             |
+| `/pools/extended`                          | Get extended pool information                            |
+| `/pools/{id}/delegators`                   | Get delegators for a specific pool                       |
+| `/pools/{id}/history`                      | Get history for a specific pool                          |
+| `/scripts/{script_hash}`                   | Get script information                                   |
+| `/scripts/{script_hash}/json`              | Get script JSON                                          |
+| `/scripts/{script_hash}/cbor`              | Get script CBOR                                          |
+| `/scripts/datum/{datum_hash}`              | Get datum by hash                                        |
+| `/scripts/datum/{datum_hash}/cbor`         | Get datum CBOR by hash                                   |
+| `/tx/submit`                               | Submit a transaction                                     |
+| `/txs/{tx_hash}`                           | Get transaction information                              |
+| `/txs/{tx_hash}/cbor`                      | Get CBOR data for a transaction                          |
+| `/txs/{tx_hash}/delegations`               | Get delegations for a specific transaction               |
+| `/txs/{tx_hash}/metadata`                  | Get metadata for a specific transaction                  |
+| `/txs/{tx_hash}/metadata/cbor`             | Get CBOR metadata for a specific transaction             |
+| `/txs/{tx_hash}/mirs`                      | Get MIRs for a specific transaction                      |
+| `/txs/{tx_hash}/pool_retires`              | Get pool retirements for a specific transaction          |
+| `/txs/{tx_hash}/pool_updates`              | Get pool updates for a specific transaction              |
+| `/txs/{tx_hash}/redeemers`                 | Get redeemers for a specific transaction                 |
+| `/txs/{tx_hash}/stakes`                    | Get stakes for a specific transaction                    |
+| `/txs/{tx_hash}/utxos`                     | Get UTXOs for a specific transaction                     |
+| `/txs/{tx_hash}/withdrawals`               | Get withdrawals for a specific transaction               |

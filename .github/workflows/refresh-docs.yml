@@ -1,0 +1,72 @@
+name: Refresh Documentation Sources
+
+on:
+  schedule:
+    # Weekly on Monday at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch: # allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch all documentation sources
+        run: ./scripts/fetch-docs.sh
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git add docs/sources/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No documentation changes detected"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            STATS=$(git diff --cached --stat | tail -1)
+            echo "stats=$STATS" >> "$GITHUB_OUTPUT"
+            echo "Documentation changes detected: $STATS"
+          fi
+
+      - name: Create pull request
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="docs/refresh-$(date +%Y-%m-%d)"
+          git checkout -b "$BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs: refresh documentation sources ($(date +%Y-%m-%d))
+
+          Automated weekly refresh of upstream documentation.
+
+          ${{ steps.changes.outputs.stats }}"
+
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "docs: weekly documentation refresh ($(date +%Y-%m-%d))" \
+            --body "$(cat <<'EOF'
+          ## Automated Documentation Refresh
+
+          This PR was created automatically by the weekly docs refresh workflow.
+
+          **What changed:** Upstream documentation sources were re-fetched and
+          any changes from the source repositories are included.
+
+          **Review:** Skim the diff to verify no unexpected content was pulled in.
+          Changes are typically documentation updates, new pages, or typo fixes
+          from upstream projects.
+
+          **Merge:** Safe to merge if the diff looks reasonable.
+          EOF
+          )" \
+            --label "documentation,automated"
