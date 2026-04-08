@@ -5,6 +5,7 @@
   "author": {
     "name": "Cardano Developer Community"
   },
+  "repository": "https://github.com/easy1staking-com/cardano-dev-skills",
   "license": "Apache-2.0",
   "keywords": ["cardano", "blockchain", "smart-contracts", "aiken", "web3", "eutxo"]
 }

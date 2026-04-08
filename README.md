@@ -28,7 +28,7 @@ claude plugin add /path/to/cardano-dev-skills
 Or add via marketplace (when published):
 
 ```bash
-claude plugin marketplace add cardano-dev-skills
+claude plugin marketplace add easy1staking-com/cardano-dev-skills
 ```
 
 ### Claude Code (project-level)
@@ -36,7 +36,7 @@ claude plugin marketplace add cardano-dev-skills
 Clone into your project and skills are auto-discovered via the `.claude/skills` symlink:
 
 ```bash
-git clone https://github.com/<org>/cardano-dev-skills.git
+git clone https://github.com/easy1staking-com/cardano-dev-skills.git
 cd your-cardano-project
 ln -s ../cardano-dev-skills/skills .claude/skills
 ```
@@ -46,7 +46,7 @@ ln -s ../cardano-dev-skills/skills .claude/skills
 Skills are auto-discovered via the `.agents/skills` symlink:
 
 ```bash
-git clone https://github.com/<org>/cardano-dev-skills.git
+git clone https://github.com/easy1staking-com/cardano-dev-skills.git
 ```
 
 ### Standalone
@@ -65,7 +65,7 @@ Once installed, skills activate automatically based on your requests:
 
 ## Companion: Cardano MCP Server
 
-This knowledge base pairs with the [Cardano Unified MCP Server](https://github.com/<org>/cardano-unified-mcp-server), which provides semantic search over 23,000+ documentation chunks from all 40+ sources.
+This knowledge base pairs with the [Cardano Unified MCP Server](https://github.com/easy1staking-com/cardano-unified-mcp-server), which provides semantic search over 23,000+ documentation chunks from all 40+ sources.
 
 - **Skills** (this repo) = behavioral guidance — *how* to do things
 - **MCP Server** = factual reference — *what* the docs say
