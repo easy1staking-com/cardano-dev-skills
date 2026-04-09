@@ -503,6 +503,17 @@
   description: Official Cardano documentation at docs.cardano.org
   website: https://docs.cardano.org
 
+- name: Cardano Ledger
+  repo: https://github.com/IntersectMBO/cardano-ledger.git
+  docs_path: docs
+  format: markdown
+  category: standards
+  priority: high
+  glob_patterns:
+    - "**/*.md"
+    - "**/*.rst"
+  description: Formal ledger specs - Shelley, Alonzo, Babbage, Conway eras, tx validation, fees
+
 # =============================================================================
 # CANDIDATES - Not yet indexed, tracked for future addition
 # =============================================================================
