@@ -18,9 +18,9 @@ The SDK abstracts provider differences through a unified interface. Choose your 
 Create a provider-only client to query blockchain data:
 
 ```typescript
-import { mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!

@@ -12,9 +12,9 @@ Providers handle transaction submission and confirmation monitoring. Submit pre-
 Submit a signed transaction CBOR string:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -33,9 +33,9 @@ console.log("Transaction submitted:", txHash)
 Monitor transaction until confirmed on blockchain:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -60,9 +60,9 @@ if (confirmed) {
 Specify how often to check for confirmation:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -82,9 +82,9 @@ console.log("Confirmed:", confirmed)
 Evaluate transaction before submission to estimate script execution costs:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -109,9 +109,9 @@ redeemers.forEach((redeemer) => {
 Create a transaction submission service with error handling:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -154,9 +154,9 @@ export async function submitAndWait(signedTxCbor: string, checkInterval = 5000):
 Submit multiple transactions sequentially:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -195,9 +195,9 @@ async function submitBatch(signedTxs: string[]) {
 Handle common submission errors:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -251,9 +251,9 @@ async function safeSubmit(signedTxCbor: string) {
 Implement retry logic for transient failures:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -295,9 +295,9 @@ async function submitWithRetry(signedTxCbor: string, maxRetries = 3, delayMs = 1
 Track transaction status with periodic checks:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -336,9 +336,9 @@ async function monitorTransaction(
 End-to-end transaction submission with all error handling:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!
@@ -419,9 +419,9 @@ export async function submitTransaction(signedTxCbor: string): Promise<Transacti
 Validate scripts before submitting:
 
 ```typescript twoslash
-import { Transaction, TransactionHash, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { Transaction, TransactionHash, mainnet, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(mainnet)
+const client = Client.make(mainnet)
   .withBlockfrost({
     baseUrl: "https://cardano-mainnet.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_PROJECT_ID!

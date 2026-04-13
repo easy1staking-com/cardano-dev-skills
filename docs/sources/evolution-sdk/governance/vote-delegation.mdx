@@ -10,9 +10,9 @@ In the Conway era, ADA holders can delegate their governance voting power to a D
 ## Delegate to a DRep
 
 ```typescript twoslash
-import { Credential, DRep, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Credential, DRep, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -44,9 +44,9 @@ Instead of delegating to a specific DRep, you can choose a built-in option:
 | **AlwaysNoConfidence** | Your power always counts as "no confidence" in the committee |
 
 ```typescript twoslash
-import { Credential, DRep, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Credential, DRep, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -73,9 +73,9 @@ await signed.submit()
 Use `delegateToPoolAndDRep` to delegate both in a single certificate:
 
 ```typescript twoslash
-import { Credential, DRep, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Credential, DRep, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -104,9 +104,9 @@ await signed.submit()
 For new stake credentials, combine registration with vote delegation:
 
 ```typescript twoslash
-import { Credential, DRep, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Credential, DRep, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!

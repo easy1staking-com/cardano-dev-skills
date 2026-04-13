@@ -1,6 +1,6 @@
 ---
 title: sdk/builders/operations/Stake.ts
-nav_order: 134
+nav_order: 132
 parent: Modules
 ---
 
@@ -163,9 +163,8 @@ Use amount: 0n to trigger stake validator without withdrawing (coordinator patte
 
 ```ts
 export declare const createWithdrawProgram: (
-  params: WithdrawParams,
-  config: TxBuilderConfig
-) => Effect.Effect<void, TransactionBuilderError, TxContext>
+  params: WithdrawParams
+) => Effect.Effect<void, TransactionBuilderError, TxContext | TxBuilderConfigTag>
 ```
 
 Added in v2.0.0
