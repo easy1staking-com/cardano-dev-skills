@@ -10,9 +10,9 @@ DReps, Constitutional Committee members, and Stake Pool Operators can vote on go
 ## Casting a Vote
 
 ```typescript twoslash
-import { VotingProcedures, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { VotingProcedures, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -40,9 +40,9 @@ await signed.submit()
 For DReps or Committee members with script credentials, provide a redeemer:
 
 ```typescript twoslash
-import { Data, VotingProcedures, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Data, VotingProcedures, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!

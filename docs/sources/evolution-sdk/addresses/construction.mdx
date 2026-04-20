@@ -47,9 +47,9 @@ const bech32 = Address.toBech32(address)
 ## Getting Your Wallet Address
 
 ```typescript twoslash
-import { preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withSeed({ mnemonic: process.env.WALLET_MNEMONIC!, accountIndex: 0 })
 
 const myAddress = await client.address()

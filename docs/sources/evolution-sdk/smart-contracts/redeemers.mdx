@@ -22,10 +22,10 @@ import {
   Data,
   preprod,
   type UTxO,
-  client as makeClient,
+  Client,
 } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -57,10 +57,10 @@ import {
   Data,
   preprod,
   type UTxO,
-  client as makeClient,
+  Client,
 } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -101,10 +101,10 @@ import {
   Data,
   preprod,
   type UTxO,
-  client as makeClient,
+  Client,
 } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -135,9 +135,9 @@ const tx = await client
 Redeemers also apply to minting policies. The same three modes work:
 
 ```typescript twoslash
-import { Assets, Data, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Assets, Data, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
