@@ -18,9 +18,9 @@ Reference scripts (Plutus V2+) let you store a script on-chain in a UTxO and ref
 Store your validator script on-chain by including it in a UTxO output:
 
 ```typescript twoslash
-import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Address, Assets, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -56,10 +56,10 @@ import {
   Data,
   preprod,
   type UTxO,
-  client as makeClient,
+  Client,
 } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!
@@ -105,10 +105,10 @@ import {
   Data,
   preprod,
   type UTxO,
-  client as makeClient,
+  Client,
 } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: process.env.BLOCKFROST_API_KEY!

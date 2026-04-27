@@ -652,6 +652,8 @@ via off
 follow_x_forwarded_for deny all
 
 # Anonymize request headers
+request_header_access signer-node-version allow all
+request_header_access mithril-api-version allow all
 request_header_access Authorization allow all
 request_header_access Proxy-Authorization allow all
 request_header_access Cache-Control allow all
@@ -708,6 +710,8 @@ via off
 follow_x_forwarded_for deny all
 
 # Anonymize request headers
+request_header_access signer-node-version allow all
+request_header_access mithril-api-version allow all
 request_header_access Authorization allow all
 request_header_access Proxy-Authorization allow all
 request_header_access Cache-Control allow all
@@ -973,7 +977,7 @@ As we are still in a testing stage, we only support the `pre-release-preview` ne
 
 You can use these parameters for the **pre-release-preview** network:
 
-- **DMQ_RELEASE_URL**: `https://github.com/IntersectMBO/dmq-node/releases/download/0.4.1.0/dmq-node-linux.tar.gz`
+- **DMQ_RELEASE_URL**: `https://github.com/IntersectMBO/dmq-node/releases/download/0.4.2.0/dmq-node-linux.tar.gz`
 
 _These URLs may change in the future; please refer to this page for the latest released version of the DMQ node binary._
 

@@ -1,6 +1,6 @@
 ---
 title: sdk/builders/operations/Operations.ts
-nav_order: 128
+nav_order: 126
 parent: Modules
 ---
 
@@ -614,9 +614,9 @@ Times are in Unix milliseconds and will be converted to slots based on network c
 ```ts
 export interface ValidityParams {
   /** Transaction valid after this Unix time (milliseconds). Converted to slot. */
-  readonly from?: Time.UnixTime
+  readonly from?: UnixTime.UnixTime
   /** Transaction expires after this Unix time (milliseconds). Converted to slot. */
-  readonly to?: Time.UnixTime
+  readonly to?: UnixTime.UnixTime
 }
 ```
 

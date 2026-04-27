@@ -1,6 +1,6 @@
 ---
 title: sdk/wallet/Derivation.ts
-nav_order: 164
+nav_order: 159
 parent: Modules
 ---
 

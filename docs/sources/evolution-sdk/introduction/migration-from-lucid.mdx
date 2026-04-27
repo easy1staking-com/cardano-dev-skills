@@ -38,9 +38,9 @@ const lucid = await Lucid.new(blockfrostProvider, "Preprod")
 **Evolution SDK:**
 
 ```ts twoslash
-import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Address, Assets, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: "your-project-id"
@@ -62,9 +62,9 @@ lucid.newTx().payToAddress("addr...", { lovelace: 2000000n }).complete()
 **Evolution SDK:**
 
 ```ts twoslash
-import { Address, Assets, preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { Address, Assets, preprod, Client } from "@evolution-sdk/evolution"
 
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withBlockfrost({
     baseUrl: "https://cardano-preprod.blockfrost.io/api/v0",
     projectId: "your-project-id"

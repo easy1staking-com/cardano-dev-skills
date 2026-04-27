@@ -36,6 +36,8 @@ Added in v2.0.0
   - [getStakingCredential](#getstakingcredential)
   - [hasStakingCredential](#hasstakingcredential)
   - [isEnterprise](#isenterprise)
+- [predicates](#predicates)
+  - [isScript](#isscript)
 - [utils](#utils-1)
   - [fromBytes](#frombytes-1)
   - [fromHex](#fromhex-1)
@@ -296,6 +298,20 @@ Check if AddressStructure is enterprise-like (no staking credential)
 
 ```ts
 export declare const isEnterprise: (address: Address) => boolean
+```
+
+Added in v2.0.0
+
+# predicates
+
+## isScript
+
+Check if address has a script payment credential.
+
+**Signature**
+
+```ts
+export declare const isScript: (address: Address) => boolean
 ```
 
 Added in v2.0.0

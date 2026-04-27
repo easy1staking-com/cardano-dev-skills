@@ -40,11 +40,11 @@ Never log or transmit keys in plaintext. Never store in environment variables as
 ## Basic Setup
 
 ```typescript twoslash
-import { preprod, client as makeClient } from "@evolution-sdk/evolution"
+import { preprod, Client } from "@evolution-sdk/evolution"
 
 // Create signing-only client with private key (no provider)
 // Can sign transactions but cannot query blockchain or submit
-const client = makeClient(preprod)
+const client = Client.make(preprod)
   .withPrivateKey({
     paymentKey: process.env.PAYMENT_SIGNING_KEY! // 192 hex chars
     // Optional: stakeKey for staking operations
@@ -71,7 +71,7 @@ interface PrivateKeyWalletConfig {
 Load keys from secure secret management systems:
 
 ```typescript twoslash
-import { mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { mainnet, Client } from "@evolution-sdk/evolution"
 
 // Mock vault client for documentation purposes
 declare const secretsManager: {
@@ -84,7 +84,7 @@ async function createSecureClient() {
   // Load from secure vault (AWS Secrets Manager, Azure Key Vault, etc.)
   const signingKey = await loadFromSecureVault("cardano-payment-key")
 
-  return makeClient(mainnet)
+  return Client.make(mainnet)
     .withPrivateKey({
       paymentKey: signingKey
     })
@@ -124,7 +124,7 @@ Log all key access events without logging the keys themselves. Alert on unusual 
 ## AWS Secrets Manager Example
 
 ```typescript twoslash
-import { mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { mainnet, Client } from "@evolution-sdk/evolution"
 
 // Mock AWS SDK classes for documentation
 declare class SecretsManagerClient {
@@ -148,7 +148,7 @@ async function createProductionClient() {
   const secret = JSON.parse(response.SecretString!)
 
   // Create client with retrieved key
-  return makeClient(mainnet)
+  return Client.make(mainnet)
     .withPrivateKey({
       paymentKey: secret.paymentKey
     })
@@ -158,7 +158,7 @@ async function createProductionClient() {
 ## Azure Key Vault Example
 
 ```typescript twoslash
-import { mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { mainnet, Client } from "@evolution-sdk/evolution"
 
 // Mock Azure SDK classes for documentation
 declare class DefaultAzureCredential {}
@@ -176,7 +176,7 @@ async function createProductionClient() {
   // Retrieve secret
   const secret = await secretClient.getSecret("cardano-payment-key")
 
-  return makeClient(mainnet)
+  return Client.make(mainnet)
     .withPrivateKey({
       paymentKey: secret.value!
     })
@@ -186,7 +186,7 @@ async function createProductionClient() {
 ## Key Rotation Strategy
 
 ```typescript twoslash
-import { mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { mainnet, Client } from "@evolution-sdk/evolution"
 
 async function rotateKeys() {
   // 1. Generate new key (offline, secure environment)
@@ -196,7 +196,7 @@ async function rotateKeys() {
   await storeInVault("cardano-payment-key-new", newKey)
 
   // 3. Create client with new key
-  const client = makeClient(mainnet)
+  const client = Client.make(mainnet)
     .withPrivateKey({
       paymentKey: await loadFromVault("cardano-payment-key-new")
     })
@@ -222,22 +222,22 @@ declare function archiveKey(id: string): Promise<void>
 ## Environment Separation
 
 ```typescript twoslash
-import { preprod, mainnet, client as makeClient } from "@evolution-sdk/evolution"
+import { preprod, mainnet, Client } from "@evolution-sdk/evolution"
 
 // Development
-const devClient = makeClient(preprod)
+const devClient = Client.make(preprod)
   .withPrivateKey({
     paymentKey: await loadFromVault("dev/cardano-payment-key")
   })
 
 // Staging
-const stagingClient = makeClient(preprod)
+const stagingClient = Client.make(preprod)
   .withPrivateKey({
     paymentKey: await loadFromVault("staging/cardano-payment-key") // Different key
   })
 
 // Production
-const prodClient = makeClient(mainnet)
+const prodClient = Client.make(mainnet)
   .withPrivateKey({
     paymentKey: await loadFromVault("prod/cardano-payment-key") // Different key
   })
